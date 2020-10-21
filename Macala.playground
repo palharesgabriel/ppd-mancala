@@ -1,0 +1,79 @@
+class Kalla {
+    var value: Int
+    var isKalla: Bool = false
+    var position: Int
+    
+    init(value: Int, position: Int) {
+        self.value = value
+        self.position = position
+    }
+}
+
+// Kallas da 0 até a 6: Jogador 01
+let kallasPlayerOne = [0,1,2,3,4,5]
+// Kallas da 7 até a 13: Jogador 02
+let kallasPlayerTwo = [7,8,9,10,11,12]
+
+// 
+var kallas: [Kalla] = []
+
+// Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
+var isPlayerOne: Bool = true
+
+for i in 0...13 {
+    let kalla = Kalla(value: 4, position: i)
+    if i == 6 || i == 13 {
+        kalla.isKalla = true
+    }
+    kallas.append(kalla)
+}
+
+// Função para efetuar as jogadas automaticamente e para alterar o turno entre os jogadores, recebe como parametro o objeto que o usuário cliclou - no caso apenas a posição daquele objeto no vetor - e já valida se foi um movimento válido, se for um movimento válido faz os devidos incrementos no vetor global
+func play(position: Int){
+    let condition1 = isPlayerOne == false && kallasPlayerTwo.contains(position) == false
+    let condition2 = isPlayerOne == true && kallasPlayerOne.contains(position) == false
+    
+    if (condition1 || condition2)  {
+        print("Movimento invalido")
+        return
+    }
+
+    let value = kallas[position].value
+    var aux = 0
+    var index = position + 1
+    
+    while (aux != value) {
+        kallas[index].value = kallas[index].value + 1
+        aux = aux + 1
+        index = index + 1
+    }
+    
+    kallas[position].value = 0
+    
+    let finalPosition = position + aux
+    
+    if isPlayerOne == true {
+        if finalPosition == 6 {
+            isPlayerOne = true
+        } else {
+            isPlayerOne = !isPlayerOne
+        }
+    } else {
+        if finalPosition == 13 {
+            isPlayerOne = false
+        } else {
+            isPlayerOne = !isPlayerOne
+        }
+    }
+    
+}
+
+play(position: 2)
+
+for i in 0...13 {
+    print("Value: \(kallas[i].value)")
+    print("Position: \(kallas[i].position)")
+    print("--------")
+}
+
+print("Eh o jogador Um: \(isPlayerOne)")
