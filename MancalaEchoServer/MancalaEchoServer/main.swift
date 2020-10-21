@@ -134,7 +134,7 @@ class MancalaEchoServer {
                             
                             return
                         }
-                        print("Server recebido da conexão: \(socket.remoteHostname):\(socket.remotePort): \(response) ")
+                        print("Mensagem '\(response)' recebida do cliente: \(socket.remoteHostname):\(socket.remotePort)")
                         
                         self.checkingSender(response: response)
                         
@@ -236,6 +236,7 @@ class MancalaEchoServer {
         let reply = "JOIN:;\(message) conectou!"
         do {
             try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
+            print("\(message) conectou")
         } catch {
             print("Não conectou")
         }
@@ -306,7 +307,6 @@ class MancalaEchoServer {
 let port = 5000
 let server = MancalaEchoServer(port: port)
 print("Mancala Echo Server")
-print("Conecte-se a uma janela de linha de comando inserindo 'telnet ::1 \(port)'")
 
 server.run()
 
