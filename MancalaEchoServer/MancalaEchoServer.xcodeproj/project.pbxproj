@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A4D391F723F302D4007524FA /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D391F623F302D4007524FA /* main.swift */; };
-		A4D391FF23F304F2007524FA /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = A4D391FE23F304F2007524FA /* Socket */; };
-		A4D3920123F31B47007524FA /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D3920023F31B47007524FA /* Player.swift */; };
+		AB33F7C1253FBE0C003D3047 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7C0253FBE0C003D3047 /* main.swift */; };
+		AB33F7C9253FC663003D3047 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = AB33F7C8253FC663003D3047 /* Socket */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A4D391F123F302D4007524FA /* CopyFiles */ = {
+		AB33F7BB253FBE0C003D3047 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,87 +24,85 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A4D391F323F302D4007524FA /* BizingoServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BizingoServer; sourceTree = BUILT_PRODUCTS_DIR; };
-		A4D391F623F302D4007524FA /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		A4D3920023F31B47007524FA /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		AB33F7BD253FBE0C003D3047 /* MancalaEchoServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MancalaEchoServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB33F7C0253FBE0C003D3047 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A4D391F023F302D4007524FA /* Frameworks */ = {
+		AB33F7BA253FBE0C003D3047 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4D391FF23F304F2007524FA /* Socket in Frameworks */,
+				AB33F7C9253FC663003D3047 /* Socket in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A4D391EA23F302D4007524FA = {
+		AB33F7B4253FBE0C003D3047 = {
 			isa = PBXGroup;
 			children = (
-				A4D391F523F302D4007524FA /* BizingoServer */,
-				A4D391F423F302D4007524FA /* Products */,
+				AB33F7BF253FBE0C003D3047 /* MancalaEchoServer */,
+				AB33F7BE253FBE0C003D3047 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A4D391F423F302D4007524FA /* Products */ = {
+		AB33F7BE253FBE0C003D3047 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A4D391F323F302D4007524FA /* BizingoServer */,
+				AB33F7BD253FBE0C003D3047 /* MancalaEchoServer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A4D391F523F302D4007524FA /* BizingoServer */ = {
+		AB33F7BF253FBE0C003D3047 /* MancalaEchoServer */ = {
 			isa = PBXGroup;
 			children = (
-				A4D391F623F302D4007524FA /* main.swift */,
-				A4D3920023F31B47007524FA /* Player.swift */,
+				AB33F7C0253FBE0C003D3047 /* main.swift */,
 			);
-			path = BizingoServer;
+			path = MancalaEchoServer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A4D391F223F302D4007524FA /* BizingoServer */ = {
+		AB33F7BC253FBE0C003D3047 /* MancalaEchoServer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A4D391FA23F302D4007524FA /* Build configuration list for PBXNativeTarget "BizingoServer" */;
+			buildConfigurationList = AB33F7C4253FBE0C003D3047 /* Build configuration list for PBXNativeTarget "MancalaEchoServer" */;
 			buildPhases = (
-				A4D391EF23F302D4007524FA /* Sources */,
-				A4D391F023F302D4007524FA /* Frameworks */,
-				A4D391F123F302D4007524FA /* CopyFiles */,
+				AB33F7B9253FBE0C003D3047 /* Sources */,
+				AB33F7BA253FBE0C003D3047 /* Frameworks */,
+				AB33F7BB253FBE0C003D3047 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = BizingoServer;
+			name = MancalaEchoServer;
 			packageProductDependencies = (
-				A4D391FE23F304F2007524FA /* Socket */,
+				AB33F7C8253FC663003D3047 /* Socket */,
 			);
-			productName = BizingoServer;
-			productReference = A4D391F323F302D4007524FA /* BizingoServer */;
+			productName = MancalaEchoServer;
+			productReference = AB33F7BD253FBE0C003D3047 /* MancalaEchoServer */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		A4D391EB23F302D4007524FA /* Project object */ = {
+		AB33F7B5253FBE0C003D3047 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = "Matheus Damasceno";
+				LastSwiftUpdateCheck = 1170;
+				LastUpgradeCheck = 1170;
+				ORGANIZATIONNAME = "Gabriel Palhares";
 				TargetAttributes = {
-					A4D391F223F302D4007524FA = {
-						CreatedOnToolsVersion = 11.3.1;
+					AB33F7BC253FBE0C003D3047 = {
+						CreatedOnToolsVersion = 11.7;
 					};
 				};
 			};
-			buildConfigurationList = A4D391EE23F302D4007524FA /* Build configuration list for PBXProject "BizingoServer" */;
+			buildConfigurationList = AB33F7B8253FBE0C003D3047 /* Build configuration list for PBXProject "MancalaEchoServer" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,33 +110,32 @@
 				en,
 				Base,
 			);
-			mainGroup = A4D391EA23F302D4007524FA;
+			mainGroup = AB33F7B4253FBE0C003D3047;
 			packageReferences = (
-				A4D391FD23F304F2007524FA /* XCRemoteSwiftPackageReference "BlueSocket" */,
+				AB33F7C7253FC663003D3047 /* XCRemoteSwiftPackageReference "BlueSocket" */,
 			);
-			productRefGroup = A4D391F423F302D4007524FA /* Products */;
+			productRefGroup = AB33F7BE253FBE0C003D3047 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A4D391F223F302D4007524FA /* BizingoServer */,
+				AB33F7BC253FBE0C003D3047 /* MancalaEchoServer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A4D391EF23F302D4007524FA /* Sources */ = {
+		AB33F7B9253FBE0C003D3047 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A4D3920123F31B47007524FA /* Player.swift in Sources */,
-				A4D391F723F302D4007524FA /* main.swift in Sources */,
+				AB33F7C1253FBE0C003D3047 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		A4D391F823F302D4007524FA /* Debug */ = {
+		AB33F7C2253FBE0C003D3047 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -199,7 +195,7 @@
 			};
 			name = Debug;
 		};
-		A4D391F923F302D4007524FA /* Release */ = {
+		AB33F7C3253FBE0C003D3047 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -252,22 +248,22 @@
 			};
 			name = Release;
 		};
-		A4D391FB23F302D4007524FA /* Debug */ = {
+		AB33F7C5253FBE0C003D3047 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N96A4XNBA6;
+				DEVELOPMENT_TEAM = 6Z5CB5T6U7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		A4D391FC23F302D4007524FA /* Release */ = {
+		AB33F7C6253FBE0C003D3047 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N96A4XNBA6;
+				DEVELOPMENT_TEAM = 6Z5CB5T6U7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -277,20 +273,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A4D391EE23F302D4007524FA /* Build configuration list for PBXProject "BizingoServer" */ = {
+		AB33F7B8253FBE0C003D3047 /* Build configuration list for PBXProject "MancalaEchoServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A4D391F823F302D4007524FA /* Debug */,
-				A4D391F923F302D4007524FA /* Release */,
+				AB33F7C2253FBE0C003D3047 /* Debug */,
+				AB33F7C3253FBE0C003D3047 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A4D391FA23F302D4007524FA /* Build configuration list for PBXNativeTarget "BizingoServer" */ = {
+		AB33F7C4253FBE0C003D3047 /* Build configuration list for PBXNativeTarget "MancalaEchoServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A4D391FB23F302D4007524FA /* Debug */,
-				A4D391FC23F302D4007524FA /* Release */,
+				AB33F7C5253FBE0C003D3047 /* Debug */,
+				AB33F7C6253FBE0C003D3047 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -298,23 +294,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A4D391FD23F304F2007524FA /* XCRemoteSwiftPackageReference "BlueSocket" */ = {
+		AB33F7C7253FC663003D3047 /* XCRemoteSwiftPackageReference "BlueSocket" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/IBM-Swift/BlueSocket";
+			repositoryURL = "https://github.com/IBM-Swift/BlueSocket.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.52;
+				minimumVersion = 1.0.200;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A4D391FE23F304F2007524FA /* Socket */ = {
+		AB33F7C8253FC663003D3047 /* Socket */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A4D391FD23F304F2007524FA /* XCRemoteSwiftPackageReference "BlueSocket" */;
+			package = AB33F7C7253FC663003D3047 /* XCRemoteSwiftPackageReference "BlueSocket" */;
 			productName = Socket;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = A4D391EB23F302D4007524FA /* Project object */;
+	rootObject = AB33F7B5253FBE0C003D3047 /* Project object */;
 }

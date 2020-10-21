@@ -1,28 +1,26 @@
 //
 //  main.swift
-//  BizingoServer
+//  MancalaEchoServer
 //
-//  Created by Matheus Damasceno on 11/02/20.
-//  Copyright © 2020 Matheus Damasceno. All rights reserved.
+//  Created by Gabriel Palhares on 20/10/20.
+//  Copyright © 2020 Gabriel Palhares. All rights reserved.
 //
 
 import Foundation
 import Socket
 import Dispatch
 
-class EchoServer {
-    
-    static let quitCommand: String = "QUIT"
-    static let shutdownCommand: String = "SHUTDOWN"
-    static let bufferSize = 4096
-    
-    var player = Player(type: "")
-    
+class MancalaEchoServer {
+    let quitCommand: String = "QUIT"
+    let shutdownCommand: String = "SHUTDOWN"
+    let bufferSize = 4096
+        
     let port: Int
     var listenSocket: Socket? = nil
     var continueRunningValue = true
     var connectedSockets = [Int32: Socket]()
     let socketLockQueue = DispatchQueue(label: "com.ibm.serverSwift.socketLockQueue")
+    
     var continueRunning: Bool {
         set(newValue) {
             socketLockQueue.sync {
@@ -35,7 +33,7 @@ class EchoServer {
             }
         }
     }
-
+    
     init(port: Int) {
         self.port = port
     }
@@ -57,23 +55,24 @@ class EchoServer {
             do {
                 
                 try self.listenSocket = Socket.create(family: .inet)
-            
+                
                 
                 guard let socket = self.listenSocket else {
                     
-                    print("Unable to unwrap socket...")
+                    print("Socket não encontrado...")
                     return
                 }
                 
                 try socket.listen(on: self.port)
                 
-                print("Listening on port: \(socket.listeningPort)")
+                print("Socket ouvindo na porta: \(socket.listeningPort)")
                 
                 repeat {
                     let newSocket = try socket.acceptClientConnection()
                     
-                    print("Accepted connection from: \(newSocket.remoteHostname) on port \(newSocket.remotePort)")
-                    print("Socket Signature: \(String(describing: newSocket.signature?.description))")
+                    print("Conexão estabelecida com o cliente: \(newSocket.remoteHostname) na porta \(newSocket.remotePort)")
+                    
+                    print("Assinatura do Socket: \(String(describing: newSocket.signature?.description))")
                     
                     self.addNewConnection(socket: newSocket)
                     
@@ -82,13 +81,13 @@ class EchoServer {
             }
             catch let error {
                 guard let socketError = error as? Socket.Error else {
-                    print("Unexpected error...")
+                    print("Erro desconhecido...")
                     return
                 }
                 
                 if self.continueRunning {
                     
-                    print("Error reported:\n \(socketError.description)")
+                    print("Erro reportado:\n \(socketError.description)")
                     
                 }
             }
@@ -98,31 +97,24 @@ class EchoServer {
     
     func addNewConnection(socket: Socket) {
         
-        // Add the new socket to the list of connected sockets...
+        // Adiciona o novo socket a lista de sockets conectados
         if connectedSockets.count <= 2 {
             socketLockQueue.sync { [unowned self, socket] in
                 self.connectedSockets[socket.socketfd] = socket
             }
-            
-            if connectedSockets.count == 1 {
-                player.type = "orange"
-            } else if connectedSockets.count == 2 {
-                player.type = "purple"
-            }
         }
         
-        // Get the global concurrent queue...
+        // Da um get na thread global
         let queue = DispatchQueue.global(qos: .default)
         
-        // Create the run loop work item and dispatch to the default priority global queue...
+        // Cria o loop de execução e despacha para a thread global
         queue.async { [unowned self, socket] in
             
             var shouldKeepRunning = true
             
-            var readData = Data(capacity: EchoServer.bufferSize)
+            var readData = Data(capacity: self.bufferSize)
             
             do {
-                // Write the welcome string...
                 
                 repeat {
                     let bytesRead = try socket.read(into: &readData)
@@ -130,30 +122,29 @@ class EchoServer {
                     if bytesRead > 0 {
                         guard let response = String(data: readData, encoding: .utf8) else {
                             
-                            print("Error decoding response...")
+                            print("Erro ao decodificar a response")
                             readData.count = 0
                             break
                         }
-                        if response.hasPrefix(EchoServer.shutdownCommand) {
+                        if response.hasPrefix(self.shutdownCommand) {
                             
-                            print("Shutdown requested by connection at \(socket.remoteHostname):\(socket.remotePort)")
+                            print("Desligamento solicitado pela conexão em \(socket.remoteHostname):\(socket.remotePort)")
                             
-                            // Shut things down...
                             self.shutdownServer()
                             
                             return
                         }
-                        print("Server received from connection at \(socket.remoteHostname):\(socket.remotePort): \(response) ")
+                        print("Server recebido da conexão: \(socket.remoteHostname):\(socket.remotePort): \(response) ")
                         
                         self.checkingSender(response: response)
                         
-                        if (response.uppercased().hasPrefix(EchoServer.quitCommand) || response.uppercased().hasPrefix(EchoServer.shutdownCommand)) &&
-                            (!response.hasPrefix(EchoServer.quitCommand) && !response.hasPrefix(EchoServer.shutdownCommand)) {
+                        if (response.uppercased().hasPrefix(self.quitCommand) || response.uppercased().hasPrefix(self.shutdownCommand)) &&
+                            (!response.hasPrefix(self.quitCommand) && !response.hasPrefix(self.shutdownCommand)) {
                             
-                            try socket.write(from: "If you want to QUIT or SHUTDOWN, please type the name in all caps. 😃\n")
+                            try socket.write(from: "Se quiser sair ou se desconectar, digite QUIT ou SHUTDOWN respectivamente. 😃\n")
                         }
                         
-                        if response.hasPrefix(EchoServer.quitCommand) || response.hasSuffix(EchoServer.quitCommand) {
+                        if response.hasPrefix(self.quitCommand) || response.hasSuffix(self.quitCommand) {
                             
                             shouldKeepRunning = false
                         }
@@ -169,7 +160,7 @@ class EchoServer {
                     
                 } while shouldKeepRunning
                 
-                print("Socket: \(socket.remoteHostname):\(socket.remotePort) closed...")
+                print("Socket: \(socket.remoteHostname):\(socket.remotePort) encerrado...")
                 socket.close()
                 
                 self.socketLockQueue.sync { [unowned self, socket] in
@@ -179,22 +170,22 @@ class EchoServer {
             }
             catch let error {
                 guard let socketError = error as? Socket.Error else {
-                    print("Unexpected error by connection at \(socket.remoteHostname):\(socket.remotePort)...")
+                    print("Erro desconhecido na conexão em \(socket.remoteHostname):\(socket.remotePort)...")
                     return
                 }
                 if self.continueRunning {
-                    print("Error reported by connection at \(socket.remoteHostname):\(socket.remotePort):\n \(socketError.description)")
+                    print("Erro repordado na conexão em \(socket.remoteHostname):\(socket.remotePort):\n \(socketError.description)")
                 }
             }
         }
     }
     
     func shutdownServer() {
-        print("\nShutdown in progress...")
-
+        print("\nEncerrando...")
+        
         self.continueRunning = false
         
-        // Close all open sockets...
+        // Encerra todos os sockets abertos
         for socket in connectedSockets.values {
             
             self.socketLockQueue.sync { [unowned self, socket] in
@@ -242,7 +233,7 @@ class EchoServer {
     }
     
     func joinHandler(message: String) {
-        let reply = "JOIN:\(player.type);\(message) conectou!"
+        let reply = "JOIN:;\(message) conectou!"
         do {
             try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
         } catch {
@@ -313,8 +304,10 @@ class EchoServer {
 }
 
 let port = 5000
-let server = EchoServer(port: port)
-print("Swift Echo Server Sample")
-print("Connect with a command line window by entering 'telnet ::1 \(port)'")
+let server = MancalaEchoServer(port: port)
+print("Mancala Echo Server")
+print("Conecte-se a uma janela de linha de comando inserindo 'telnet ::1 \(port)'")
 
 server.run()
+
+
