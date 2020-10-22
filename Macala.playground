@@ -1,6 +1,7 @@
 class Kalla {
+    
     var value: Int
-    var isKalla: Bool = false
+//    var isKalla: Bool = false
     var position: Int
     
     init(value: Int, position: Int) {
@@ -9,39 +10,52 @@ class Kalla {
     }
 }
 
+// MARK: - Variaveis globais
+
 // Kallas da 0 até a 6: Jogador 01
 let kallasPlayerOne = [0,1,2,3,4,5]
 // Kallas da 7 até a 13: Jogador 02
 let kallasPlayerTwo = [7,8,9,10,11,12]
 
-// 
+// Se winner igual a 0 a partida foi empate
+// Se wiiner igual a 1 o jogador 1 venceu
+// Se wiiner igual a 2 o jogador 2 venceu
+var winner: Int = -1
+
+// Vetor global que armazena todas as kallas
 var kallas: [Kalla] = []
 
 // Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
 var isPlayerOne: Bool = true
 
-for i in 0...13 {
-    let kalla = Kalla(value: 4, position: i)
-    if i == 6 || i == 13 {
-        kalla.isKalla = true
+func resetGame() {
+    winner = -1
+    for i in 0...13 {
+        let kalla = Kalla(value: 4, position: i)
+        kallas.append(kalla)
     }
-    kallas.append(kalla)
+    // As kallas principais começam com valores zerados
+    kallas[6].value = 0
+    kallas[13].value = 0
 }
 
+resetGame()
+
 // Função para efetuar as jogadas automaticamente e para alterar o turno entre os jogadores, recebe como parametro o objeto que o usuário cliclou - no caso apenas a posição daquele objeto no vetor - e já valida se foi um movimento válido, se for um movimento válido faz os devidos incrementos no vetor global
-func play(position: Int){
-    let condition1 = isPlayerOne == false && kallasPlayerTwo.contains(position) == false
-    let condition2 = isPlayerOne == true && kallasPlayerOne.contains(position) == false
+func play(position: Int) {
+    let condition1 = isPlayerOne && kallasPlayerTwo.contains(position)
+    let condition2 = !isPlayerOne && kallasPlayerOne.contains(position)
     
     if (condition1 || condition2)  {
         print("Movimento invalido")
         return
+        // break
     }
 
     let value = kallas[position].value
     var aux = 0
     var index = position + 1
-    
+    // Vai executar conforme a quantidade de sementes da Kalla
     while (aux != value) {
         kallas[index].value = kallas[index].value + 1
         aux = aux + 1
@@ -52,22 +66,134 @@ func play(position: Int){
     
     let finalPosition = position + aux
     
-    if isPlayerOne == true {
+    capture(finalPosition: finalPosition)
+    
+    if gameOver() {
+        hasWinner()
+        if winner == 1 {
+            // Parar o jogo
+            print("Jogador numero 1 venceu, parabéns!!!")
+        } else if winner == 2 {
+            // Parar o jogo
+            print("Jogador numero 1 venceu, parabéns!!!")
+        } else {
+            print("Jogo empatado!!!")
+        }
+    }
+    
+    if isPlayerOne {
         if finalPosition == 6 {
             isPlayerOne = true
         } else {
-            isPlayerOne = !isPlayerOne
+            isPlayerOne.toggle()
         }
     } else {
         if finalPosition == 13 {
             isPlayerOne = false
         } else {
-            isPlayerOne = !isPlayerOne
+            isPlayerOne.toggle()
         }
     }
-    
+     
 }
 
+// Função para validar se o jogo terminou, o jogo acaba quando um jogador tem todas as suas kallas - com exceção da kalla principal - sem nenhuma semente
+
+//
+
+func gameOver() -> Bool {
+    var final: Bool = true
+
+    if isPlayerOne {
+        for i in kallasPlayerOne {
+            if kallas[i].value > 0 {
+                final = false
+            }
+        }
+
+    } else {
+        for i in kallasPlayerTwo {
+            if kallas[i].value > 0 {
+                final = false
+            }
+        }
+
+    }
+    return final
+}
+
+// Depois de verificado se o jogo terminou, precisamos verificar quem o vencedor ou se a partida saiu empatada
+func hasWinner() {
+    if gameOver() {
+        if kallas[6].value > kallas[13].value {
+            winner = 1
+        } else if kallas[6].value < kallas[13].value {
+            winner = 2
+        } else {
+            winner = 0
+        }
+    }
+}
+
+// Função para somar os valores de duas kallas comuns, depois somar com o valor da kalla principal e por fim resetar as duas kallas comuns
+func operationKallas(indexOne: Int, indexTwo: Int, indexPrincipal: Int) {
+    let aux = kallas[indexOne].value + kallas[indexTwo].value
+    kallas[indexPrincipal].value = kallas[indexPrincipal].value + aux
+    kallas[indexOne].value = 0
+    kallas[indexTwo].value = 0
+}
+
+// Função que de acordo com o jogador verifica se a última semente ficou
+func capture(finalPosition: Int) {
+    // Quem está jogando é o jogador numero 1
+    if isPlayerOne {
+        if kallasPlayerOne.contains(finalPosition) && kallas[finalPosition].value == 1 {
+            switch finalPosition {
+            case 0:
+                operationKallas(indexOne: 0, indexTwo: 12, indexPrincipal: 6)
+            case 1:
+                operationKallas(indexOne: 1, indexTwo: 11, indexPrincipal: 6)
+            case 2:
+                operationKallas(indexOne: 2, indexTwo: 10, indexPrincipal: 6)
+            case 3:
+                operationKallas(indexOne: 3, indexTwo: 9, indexPrincipal: 6)
+            case 4:
+                operationKallas(indexOne: 4, indexTwo: 8, indexPrincipal: 6)
+            default: // 5
+                operationKallas(indexOne: 5, indexTwo: 7, indexPrincipal: 6)
+            }
+        }
+
+    } else {
+        switch finalPosition {
+        case 7:
+            operationKallas(indexOne: 7, indexTwo: 5, indexPrincipal: 13)
+        case 8:
+            operationKallas(indexOne: 8, indexTwo: 4, indexPrincipal: 13)
+        case 9:
+            operationKallas(indexOne: 9, indexTwo: 3, indexPrincipal: 13)
+        case 10:
+            operationKallas(indexOne: 10, indexTwo: 2, indexPrincipal: 13)
+        case 11:
+            operationKallas(indexOne: 11, indexTwo: 1, indexPrincipal: 13)
+        default: //12
+            operationKallas(indexOne: 12, indexTwo: 0, indexPrincipal: 13)
+        }
+    }
+}
+
+// Controle de turno, se estiver no turno de um jogador o outro não pode jogar
+
+// Deve existir uma botão para reiniciar a partida
+
+// Chat e o protocolo que deve passar
+
+// UI do jogo e do chat também
+
+// Rotinas de jogadas para validar se a regra de negócio está funcionando corretamente
+
+
+isPlayerOne = true
 play(position: 2)
 
 for i in 0...13 {
