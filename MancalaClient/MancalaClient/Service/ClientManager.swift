@@ -45,7 +45,7 @@ class ClientManager: NSObject {
         
         inputStream.delegate = self
         
-         // adicionando as streams em um loop[ de execução para que o cliente capture os eventos pela rede
+        // adicionando as streams em um loop de execução para que o cliente capture os eventos pela rede
         inputStream.schedule(in: .current, forMode: .common)
         outputStream.schedule(in: .current, forMode: .common)
         
@@ -62,24 +62,24 @@ class ClientManager: NSObject {
         
         _ = data.withUnsafeBytes {
             guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                print("Error joining chat")
+                print("Erro ao entrar no chat")
                 return
             }
             outputStream.write(pointer, maxLength: data.count)
         }
     }
     
-//    func changeTurn(toPlayer player: PlayerType) {
-//        let playerType = player.rawValue
-//        let data = "TURN:\(playerType)".data(using: .utf8)!
-//        send(data: data)
-//    }
-//
-//    func move(piece: PlayerType, from previousPosition: Coordinate, to newPosition: Coordinate) {
-//        let player = piece.rawValue
-//        let data = "MOVE:\(player);FROM:\(previousPosition.row)-\(previousPosition.column),TO:\(newPosition.row)-\(newPosition.column)".data(using: .utf8)!
-//        send(data: data)
-//    }
+    //    func changeTurn(toPlayer player: PlayerType) {
+    //        let playerType = player.rawValue
+    //        let data = "TURN:\(playerType)".data(using: .utf8)!
+    //        send(data: data)
+    //    }
+    //
+    //    func move(piece: PlayerType, from previousPosition: Coordinate, to newPosition: Coordinate) {
+    //        let player = piece.rawValue
+    //        let data = "MOVE:\(player);FROM:\(previousPosition.row)-\(previousPosition.column),TO:\(newPosition.row)-\(newPosition.column)".data(using: .utf8)!
+    //        send(data: data)
+    //    }
     
     func requestToRestart(byUser user: String) {
         let data = "RST-REQUEST:\(user)".data(using: .utf8)!
@@ -94,14 +94,14 @@ class ClientManager: NSObject {
     func send(data: Data) {
         _ = data.withUnsafeBytes {
             guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                print("Error joining chat")
+                print("Erro ao enviar mensagem")
                 return
             }
             outputStream.write(pointer, maxLength: data.count)
         }
     }
     
-    func stopChatSession() {
+    func stopConnection() {
         inputStream.close()
         outputStream.close()
     }
@@ -115,7 +115,7 @@ extension ClientManager: StreamDelegate {
         case .hasBytesAvailable:
             readAvailableBytes(stream: aStream as! InputStream)
         case .endEncountered:
-            stopChatSession()
+            stopConnection()
         case .errorOccurred:
             print("error occurred")
         case .hasSpaceAvailable:
@@ -126,25 +126,21 @@ extension ClientManager: StreamDelegate {
     }
     
     private func readAvailableBytes(stream: InputStream) {
-        //1
         let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLenght)
         
-        //2
         while stream.hasBytesAvailable {
-            //3
             let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLenght)
             
-            //4
             if numberOfBytesRead < 0, let error = stream.streamError {
                 print(error)
                 break
             }
             
-            // Construct the Message object
+            // Constrói a mensagem
             if let message =
                 processedMessageString(buffer: buffer, length: numberOfBytesRead) {
-                // Notify interested parties
                 
+                // Notifica os observadores
                 if message.type.contains("MOVE") {
                     if let moveMessage = processedMoveString(buffer: buffer, length: numberOfBytesRead) {
                         delegate?.didReceive(message: moveMessage)
@@ -163,7 +159,8 @@ extension ClientManager: StreamDelegate {
     
     private func processedMessageString(buffer: UnsafeMutablePointer<UInt8>,
                                         length: Int) -> Message? {
-        //1
+        
+        // Cria uma string a partir dos bytes e da um split nela a partir do ':' adicionando os componentes em um array
         guard let stringArray = String(
             bytesNoCopy: buffer,
             length: length,
@@ -175,7 +172,7 @@ extension ClientManager: StreamDelegate {
             else {
                 return nil
         }
-        //3
+        
         return Message(type: type, message: message, username: name)
         
     }

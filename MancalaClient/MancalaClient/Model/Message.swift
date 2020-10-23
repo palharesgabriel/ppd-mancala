@@ -9,14 +9,14 @@
 import Foundation
 
 struct Message {
-  let message: String
-  let senderUsername: String
-  let type: String
-  
-  init(type: String, message: String, username: String) {
-    self.message = message
-    self.senderUsername = username
-    self.type = type
-  }
+    let message: String
+    let senderUsername: String
+    let type: String
+    
+    init(type: String, message: String, username: String) {
+        self.message = message
+        self.senderUsername = username
+        self.type = type
+    }
 }
 
