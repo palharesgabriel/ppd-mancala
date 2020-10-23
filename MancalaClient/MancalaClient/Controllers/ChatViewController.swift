@@ -11,7 +11,7 @@ import UIKit
 class ChatViewController: UIViewController {
     
     let kCellIdentifider = "MessageCell"
-    var username = "Gabriel"
+    var username = String()
     var messages: [Message] = []
     var messageSender: MessageSender?
     

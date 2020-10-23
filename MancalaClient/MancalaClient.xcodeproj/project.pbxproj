@@ -14,6 +14,7 @@
 		AB33F7EF253FD445003D3047 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7EE253FD445003D3047 /* Message.swift */; };
 		ABD367422541318900C17530 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD367412541318900C17530 /* ChatViewController.swift */; };
 		ABD36746254131BA00C17530 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD36745254131BA00C17530 /* MessageCell.swift */; };
+		ABD367482542784200C17530 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD367472542784200C17530 /* InitialViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		AB33F7EE253FD445003D3047 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		ABD367412541318900C17530 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		ABD36745254131BA00C17530 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		ABD367472542784200C17530 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				ABD367412541318900C17530 /* ChatViewController.swift */,
+				ABD367472542784200C17530 /* InitialViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				AB33F7EC253FD33E003D3047 /* ClientManager.swift in Sources */,
 				AB33F7EF253FD445003D3047 /* Message.swift in Sources */,
 				AB33F7D7253FD20F003D3047 /* AppDelegate.swift in Sources */,
+				ABD367482542784200C17530 /* InitialViewController.swift in Sources */,
 				ABD367422541318900C17530 /* ChatViewController.swift in Sources */,
 				ABD36746254131BA00C17530 /* MessageCell.swift in Sources */,
 			);
