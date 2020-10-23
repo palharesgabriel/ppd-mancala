@@ -60,18 +60,8 @@ class MessageCell: UITableViewCell {
         clipsToBounds = true
         addSubview(messageLabel)
         addSubview(nameLabel)
-//        setupConstraints()
     }
-    
-    private func setupConstraints() {
         
-        NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            messageLabel.heightAnchor.constraint(equalToConstant: 25),
-            messageLabel.widthAnchor.constraint(equalToConstant: frame.width/3),
-        ])
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

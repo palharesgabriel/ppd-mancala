@@ -167,8 +167,9 @@ extension ClientManager: StreamDelegate {
             encoding: .utf8,
             freeWhenDone: true)?.components(separatedBy: ":"),
             let type = stringArray.first,
-            let message = stringArray.last,
-            let name = message.components(separatedBy: " ").first
+            let result = stringArray.last?.components(separatedBy: ";"),
+            let name = result.first,
+            let message = result.last
             else {
                 return nil
         }

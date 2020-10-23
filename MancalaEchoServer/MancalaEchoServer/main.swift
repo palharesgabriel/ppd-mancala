@@ -233,7 +233,7 @@ class MancalaEchoServer {
     }
     
     func joinHandler(message: String) {
-        let reply = "JOIN:;\(message) conectou!"
+        let reply = "JOIN:\(message) conectou!"
         do {
             try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
             print("\(message) conectou")
