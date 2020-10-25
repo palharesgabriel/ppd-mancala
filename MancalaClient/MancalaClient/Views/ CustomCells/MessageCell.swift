@@ -44,7 +44,7 @@ class MessageCell: UITableViewCell {
     let nameLabel = UILabel()
     
     func apply(message: Message, username: String) {
-        nameLabel.text = username
+        nameLabel.text = message.senderUsername
         messageLabel.text = message.message
         messageSender = message.senderUsername == username ? .myself : .someoneElse
         self.message = message

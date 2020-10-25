@@ -49,10 +49,10 @@ class InitialViewController: UIViewController {
     }
     
     @objc func goToChatController() {
-        let chatViewController = ChatViewController()
+        let gameViewController = GameViewController()
         if let username = playerName.text {
-            chatViewController.username = username
-            navigationController?.pushViewController(chatViewController, animated: true)
+            gameViewController.username = username
+            navigationController?.pushViewController(gameViewController, animated: true)
         }
         ClientManager.shared.ipHost = ipHost.text ?? ""
     }

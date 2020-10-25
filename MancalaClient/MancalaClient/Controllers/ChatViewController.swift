@@ -52,9 +52,6 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ClientManager.shared.setupNetworkCommunication()
-        ClientManager.shared.joinChat(username: username)
-        ClientManager.shared.delegate = self
         view.backgroundColor = .lightGray
         
         setupNavigationController()
@@ -154,10 +151,3 @@ extension ChatViewController: UITableViewDelegate {
     }
     
 }
-
-extension ChatViewController: ClientManagerDelegate {
-    func didReceive(message: Message) {
-        insertNewMessageCell(message)
-    }
-}
-
