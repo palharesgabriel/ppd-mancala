@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum Player: String {
+    case red = "Vermelho"
+    case purple = "Roxo"
+}
+
 class GameViewController: UIViewController {
     
     // MARK: - Variables
@@ -28,8 +33,13 @@ class GameViewController: UIViewController {
     // Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
     // O primeiro que se conectar deve ter esta variável setada para true e o outro jogador para false
     // O primeiro a se conectar fica sendo o jogador numero 01 e joga primeiro (true e true) o segundo a se conectar fica sendo o jogador numero 02 (false e false)
-    var isPlayerOne: Bool = true
-    var isYourTurn: Bool = true
+    var isPlayerOne: Bool = false
+    var isYourTurn: Bool = false {
+        didSet {
+            self.blockPlayer()
+        }
+    }
+    var firstConnection: Bool = true
     var username: String = ""
     let chatController = ChatViewController()
     
@@ -98,86 +108,72 @@ class GameViewController: UIViewController {
     }
     
     @objc func tapButton0() {
-        play(position: 0)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 0)
         print("Tap Here: 0")
     }
     
     @objc func tapButton1() {
-        play(position: 1)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 1)
         print("Tap Here: 1")
     }
     
     @objc func tapButton2() {
-        play(position: 2)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 2)
         print("Tap Here: 2")
     }
     
     @objc func tapButton3() {
-        play(position: 3)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 3)
         print("Tap Here: 3")
     }
     
     @objc func tapButton4() {
-        play(position: 4)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 4)
         print("Tap Here: 4")
     }
     
     @objc func tapButton5() {
-        play(position: 5)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 5)
         print("Tap Here: 5")
     }
     
     @objc func tapButton6() {
-        play(position: 6)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 6)
         print("Tap Here: 6")
     }
     
     @objc func tapButton7() {
-        play(position: 7)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 7)
         print("Tap Here: 7")
     }
     
     @objc func tapButton8() {
-        play(position: 8)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 8)
         print("Tap Here: 8")
     }
     
     @objc func tapButton9() {
-        play(position: 9)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 9)
         print("Tap Here: 9")
     }
     
     @objc func tapButton10() {
-        play(position: 10)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 10)
         print("Tap Here: 10")
     }
     
     @objc func tapButton11() {
-        play(position: 11)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 11)
         print("Tap Here: 11")
     }
     
     @objc func tapButton12() {
-        play(position: 12)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 12)
         print("Tap Here: 12")
     }
     
     @objc func tapButton13() {
-        play(position: 13)
-        updateUI(calas)
+        ClientManager.shared.move(from: username, in: 13)
         print("Tap Here: 13")
     }
     
@@ -481,7 +477,6 @@ class GameViewController: UIViewController {
         
     }
     
-    
     private func addChatController() {
         addChild(chatController)
         view.addSubview(chatController.view)
@@ -496,14 +491,25 @@ class GameViewController: UIViewController {
         ])
     }
     
-    func messageHandler(message: Message) {
-        chatController.insertNewMessageCell(message)
-    }
-
-    func joinHandler(message: Message) {
+    private func messageHandler(with message: Message) {
+        if firstConnection {
+            isPlayerOne = true
+            isYourTurn = true
+            firstConnection = false
+        }
         chatController.insertNewMessageCell(message)
     }
     
+    private func moveHandler(with message: Message) {
+        guard let position = Int(message.message) else { return }
+        play(position: position)
+        updateUI(calas)
+        print("JOGADA REALIZADA: \(message)")
+    }
+    
+    private func turnHandler(with message: Message) {
+        isPlayerOne = message.message == "isPlayerOne"
+    }
     
 }
 
@@ -527,36 +533,6 @@ class GameViewController: UIViewController {
 //          alertController.addAction(action1)
 //          alertController.addAction(action2)
 //          self.present(alertController, animated: true, completion: nil)
-//      }
-//
-//      func turnHandler(message: Message) {
-//          guard let gameScene = game else {
-//              fatalError("Could not load game scene")
-//          }
-//          gameScene.changeTurn(to: message.message)
-//      }
-//
-//      func moveHandler(message: Message) {
-//          guard let gameScene = game else {
-//              fatalError("Could not load game scene")
-//          }
-//
-//          let coordinates = message.message.components(separatedBy: ",")
-//          guard
-//              let previousCoordinate = coordinates.first?.components(separatedBy: ":").last?.components(separatedBy: "-"),
-//              let previousRow = Int(previousCoordinate.first ?? "0"),
-//              let previousColumn = Int(previousCoordinate.last ?? "0"),
-//              let currentCoordinate = coordinates.last?.components(separatedBy: ":").last?.components(separatedBy: "-"),
-//              let currentRow = Int(currentCoordinate.first ?? "0"),
-//              let currentColumn = Int(currentCoordinate.last ?? "0") else {
-//                  print("Could not get move positions")
-//                  return
-//          }
-//
-//          let previousPosition = gameScene.map.centerOfTile(atColumn: previousColumn, row: previousRow)
-//          if let piece = gameScene.getNodeAt(position: previousPosition) {
-//              gameScene.movePieceTo(piece: piece, pieceMatrix: (previousRow, previousColumn), col: currentColumn, row: currentRow)
-//          }
 //      }
 //
 //      func log(message: Message) {
@@ -625,12 +601,12 @@ class GameViewController: UIViewController {
 extension GameViewController: ClientManagerDelegate {
     func didReceive(message: Message) {
         switch message.type {
-        case "JOIN":
-            joinHandler(message: message)
-        case "MSG":
-            messageHandler(message: message)
-//        case "PLAY":
-//            turnHandler(message: message)
+        case "JOIN", "MSG":
+            messageHandler(with: message)
+        case "MOVE":
+            moveHandler(with: message)
+        case "TURN":
+            turnHandler(with: message)
 //        case "GVUP":
 //            giveupHandler(message)
 //        case "RST-REQUEST":

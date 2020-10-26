@@ -55,31 +55,21 @@ class ClientManager: NSObject {
     }
     
     func joinChat(username: String) {
-        
         let data = "JOIN:\(username)".data(using: .utf8)!
-        
         self.username = username
-        
-        _ = data.withUnsafeBytes {
-            guard let pointer = $0.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
-                print("Erro ao entrar no chat")
-                return
-            }
-            outputStream.write(pointer, maxLength: data.count)
-        }
+        send(data: data)
     }
     
-    //    func changeTurn(toPlayer player: PlayerType) {
-    //        let playerType = player.rawValue
-    //        let data = "TURN:\(playerType)".data(using: .utf8)!
-    //        send(data: data)
-    //    }
-    //
-    //    func move(piece: PlayerType, from previousPosition: Coordinate, to newPosition: Coordinate) {
-    //        let player = piece.rawValue
-    //        let data = "MOVE:\(player);FROM:\(previousPosition.row)-\(previousPosition.column),TO:\(newPosition.row)-\(newPosition.column)".data(using: .utf8)!
-    //        send(data: data)
-    //    }
+    func changeTurn(toPlayerOne: Bool) {
+        let message = toPlayerOne ? "isPlayerOne" : "isPlayerTwo"
+        let data = "TURN:\(message)".data(using: .utf8)!
+        send(data: data)
+    }
+    
+    func move(from username: String, in index: Int) {
+        let data = "MOVE:\(username);\(index)".data(using: .utf8)!
+        send(data: data)
+    }
     
     func requestToRestart(byUser user: String) {
         let data = "RST-REQUEST:\(user)".data(using: .utf8)!
