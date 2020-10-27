@@ -11,6 +11,18 @@ import UIKit
 class InitialViewController: UIViewController {
     
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Bem vindo ao Mancala!"
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
+        label.font = UIFont.boldSystemFont(ofSize: 80)
+        label.textColor = .red
+        return label
+    }()
+    
     let playerName: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
@@ -29,10 +41,20 @@ class InitialViewController: UIViewController {
         return textField
     }()
     
+    let port: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .white
+        textField.placeholder = " Digite a Porta "
+        textField.layer.cornerRadius = 5
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     lazy var playButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemRed
         button.setTitle("Jogar", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
         button.addTarget(self, action:#selector(goToChatController), for: .touchUpInside)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -54,32 +76,46 @@ class InitialViewController: UIViewController {
             gameViewController.username = username
             navigationController?.pushViewController(gameViewController, animated: true)
         }
-        ClientManager.shared.ipHost = ipHost.text ?? ""
+        ClientManager.shared.ipHost = ipHost.text ?? "127.0.0.1"
+        ClientManager.shared.port = port.text ?? "5000"
     }
     
     fileprivate func buildViewHierarchy() {
-        view.addSubview(playButton)
+        view.addSubview(titleLabel)
+        view.addSubview(port)
         view.addSubview(ipHost)
         view.addSubview(playerName)
+        view.addSubview(playButton)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            playerName.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            playerName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 128),
-            playerName.heightAnchor.constraint(equalToConstant: 30),
-            playerName.widthAnchor.constraint(equalToConstant: 180),
             
-            ipHost.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            ipHost.leadingAnchor.constraint(equalTo: playerName.trailingAnchor, constant: 16),
-            ipHost.heightAnchor.constraint(equalToConstant: 30),
-            ipHost.widthAnchor.constraint(equalToConstant: 180),
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
+            titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            titleLabel.heightAnchor.constraint(equalToConstant: 200),
             
-            playButton.centerXAnchor.constraint(equalTo: ipHost.trailingAnchor, constant: 32),
-            playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            playButton.widthAnchor.constraint(equalToConstant: 40),
-            playButton.heightAnchor.constraint(equalToConstant: 30)
-        
+            playerName.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
+            playerName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            playerName.heightAnchor.constraint(equalToConstant: 50),
+            playerName.widthAnchor.constraint(equalToConstant: 200),
+
+            ipHost.topAnchor.constraint(equalTo: playerName.bottomAnchor, constant: 20),
+            ipHost.centerXAnchor.constraint(equalTo: playerName.centerXAnchor),
+            ipHost.heightAnchor.constraint(equalToConstant: 50),
+            ipHost.widthAnchor.constraint(equalToConstant: 200),
+            
+            port.topAnchor.constraint(equalTo: ipHost.bottomAnchor, constant: 20),
+            port.centerXAnchor.constraint(equalTo: ipHost.centerXAnchor),
+            port.heightAnchor.constraint(equalToConstant: 50),
+            port.widthAnchor.constraint(equalToConstant: 200),
+
+            playButton.centerXAnchor.constraint(equalTo: port.centerXAnchor),
+            playButton.topAnchor.constraint(equalTo: port.bottomAnchor, constant: 20),
+            playButton.widthAnchor.constraint(equalToConstant: 200),
+            playButton.heightAnchor.constraint(equalToConstant: 60)
+
         ])
     }
     

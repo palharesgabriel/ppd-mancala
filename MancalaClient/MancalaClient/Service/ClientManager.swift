@@ -21,8 +21,9 @@ class ClientManager: NSObject {
     var inputStream: InputStream!
     var outputStream: OutputStream!
     
-    var ipHost = "127.0.0.1"
+    var ipHost = ""
     var username = ""
+    var port = ""
     
     let maxReadLenght = 4096
     
@@ -35,7 +36,7 @@ class ClientManager: NSObject {
         // Conectando as streams ao socket do host
         CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault,
                                            ipHost as CFString,
-                                           5000,
+                                           UInt32(port)!,
                                            &readStream,
                                            &writeStream)
         

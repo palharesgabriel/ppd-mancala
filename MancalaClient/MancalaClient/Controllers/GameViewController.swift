@@ -283,7 +283,7 @@ class GameViewController: UIViewController {
     }
     
     func play(position: Int) {
-        
+
         let condition1 = playerTurn == .red && calasPlayerPurple.contains(position)
         let condition2 = playerTurn == .purple && calasPlayerRed.contains(position)
         
@@ -297,7 +297,7 @@ class GameViewController: UIViewController {
         var aux = 0
         var index = position + 1
         
-        // Vai executar conforme a quantidade de sementes da Kalla
+        // Vai executar conforme a quantidade de sementes da Cala
         while (aux != value) {
             calas[index] = calas[index] + 1
             aux = aux + 1

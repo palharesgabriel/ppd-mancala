@@ -303,10 +303,10 @@ class MancalaEchoServer {
     }
 }
 
-let port = 5000
-let server = MancalaEchoServer(port: port)
-print("Mancala Echo Server")
-
-server.run()
-
-
+print("Digite uma porta para o socket observar:")
+if let port = readLine() {
+    let intPort = Int(port) ?? 5000
+    let server = MancalaEchoServer(port: intPort)
+    print("Mancala Echo Server")
+    server.run()
+}
