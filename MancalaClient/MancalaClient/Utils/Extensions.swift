@@ -105,7 +105,7 @@ extension UIViewController {
         
     }
     
-    func showAlert(title: String, message: String, type: AlertType) -> UIAlertController {
+    func createAlert(title: String, message: String, type: AlertType) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         switch type {
         case .endGame:

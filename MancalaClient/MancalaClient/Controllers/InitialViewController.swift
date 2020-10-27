@@ -10,77 +10,65 @@ import UIKit
 
 class InitialViewController: UIViewController {
     
-    
-    let playerName: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.placeholder = " Digite seu nome "
-        textField.layer.cornerRadius = 5
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+    let titleGame: CustomLabel = {
+        let lb = CustomLabel(title: "Macala", width: 800, height: 100, sizeFont: 90)
+        return lb
     }()
     
-    let ipHost: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.placeholder = " Digite o IP "
-        textField.layer.cornerRadius = 5
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
+    let tfPlayer: CustomTextField = {
+        let custom = CustomTextField(placeholder: "Digite seu nome")
+        return custom
     }()
     
-    lazy var playButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .systemRed
-        button.setTitle("Jogar", for: .normal)
-        button.addTarget(self, action:#selector(goToChatController), for: .touchUpInside)
-        button.setTitleColor(.white, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
-        return button
+    let tfIp: CustomTextField = {
+        let custom = CustomTextField(placeholder: "Digite seu IP")
+        return custom
+    }()
+    
+    lazy var btPlay: CustomButtonAction = {
+        let bt = CustomButtonAction(title: "Jogar", width: 500, height: 60, sizeFont: 32)
+        bt.addTarget(self, action:#selector(goToChatController), for: .touchUpInside)
+        return bt
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .black
         buildViewHierarchy()
         setupConstraints()
     }
     
     @objc func goToChatController() {
         let gameViewController = GameViewController()
-        if let username = playerName.text {
+        if let username = tfPlayer.text {
             gameViewController.username = username
             navigationController?.pushViewController(gameViewController, animated: true)
         }
-        ClientManager.shared.ipHost = ipHost.text ?? ""
+        ClientManager.shared.ipHost = tfIp.text ?? ""
     }
     
-    fileprivate func buildViewHierarchy() {
-        view.addSubview(playButton)
-        view.addSubview(ipHost)
-        view.addSubview(playerName)
+    private func buildViewHierarchy() {
+        view.addSubview(btPlay)
+        view.addSubview(tfIp)
+        view.addSubview(tfPlayer)
+        view.addSubview(titleGame)
     }
     
-    fileprivate func setupConstraints() {
-        NSLayoutConstraint.activate([
-            playerName.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            playerName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 128),
-            playerName.heightAnchor.constraint(equalToConstant: 30),
-            playerName.widthAnchor.constraint(equalToConstant: 180),
-            
-            ipHost.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            ipHost.leadingAnchor.constraint(equalTo: playerName.trailingAnchor, constant: 16),
-            ipHost.heightAnchor.constraint(equalToConstant: 30),
-            ipHost.widthAnchor.constraint(equalToConstant: 180),
-            
-            playButton.centerXAnchor.constraint(equalTo: ipHost.trailingAnchor, constant: 32),
-            playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -64),
-            playButton.widthAnchor.constraint(equalToConstant: 40),
-            playButton.heightAnchor.constraint(equalToConstant: 30)
+    private func setupConstraints() {
         
-        ])
+        titleGame.anchor(top: view.topAnchor, paddingTop: 100)
+        titleGame.centerX(inView: view)
+        
+        tfPlayer.anchor(top: titleGame.bottomAnchor, paddingTop: 80)
+        tfPlayer.centerX(inView: view)
+        
+        tfIp.anchor(top: tfPlayer.bottomAnchor, paddingTop: 30)
+        tfIp.centerX(inView: view)
+        
+        btPlay.anchor(top: tfIp.bottomAnchor, paddingTop: 30)
+        btPlay.centerX(inView: view)
+        
     }
     
 

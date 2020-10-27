@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		607A3CE72548D86000E51A5E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A3CE62548D86000E51A5E /* CustomTextField.swift */; };
+		607A3CEA2548DC2900E51A5E /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A3CE92548DC2900E51A5E /* CustomLabel.swift */; };
+		607A3CEE2548DD2500E51A5E /* CustomButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A3CED2548DD2500E51A5E /* CustomButtonAction.swift */; };
 		AB33F7D7253FD20F003D3047 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7D6253FD20F003D3047 /* AppDelegate.swift */; };
 		AB33F7E0253FD214003D3047 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB33F7DF253FD214003D3047 /* Assets.xcassets */; };
 		AB33F7E3253FD214003D3047 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB33F7E1253FD214003D3047 /* LaunchScreen.storyboard */; };
 		AB33F7EC253FD33E003D3047 /* ClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7EB253FD33E003D3047 /* ClientManager.swift */; };
 		AB33F7EF253FD445003D3047 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7EE253FD445003D3047 /* Message.swift */; };
 		AB7A269E2543C99F00178D80 /* Cala.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A269D2543C99F00178D80 /* Cala.swift */; };
-		AB7A26A02543C9DE00178D80 /* CalaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A269F2543C9DE00178D80 /* CalaButton.swift */; };
-		AB7A26A32543CBA300178D80 /* UIView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A26A22543CBA300178D80 /* UIView + Extensions.swift */; };
+		AB7A26A02543C9DE00178D80 /* CustomButtonKala.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A269F2543C9DE00178D80 /* CustomButtonKala.swift */; };
+		AB7A26A32543CBA300178D80 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A26A22543CBA300178D80 /* Extensions.swift */; };
 		AB7A26A52543CCA400178D80 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A26A42543CCA400178D80 /* GameViewController.swift */; };
 		ABD367422541318900C17530 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD367412541318900C17530 /* ChatViewController.swift */; };
 		ABD36746254131BA00C17530 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD36745254131BA00C17530 /* MessageCell.swift */; };
@@ -22,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		607A3CE62548D86000E51A5E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		607A3CE92548DC2900E51A5E /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		607A3CED2548DD2500E51A5E /* CustomButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonAction.swift; sourceTree = "<group>"; };
 		AB33F7D3253FD20F003D3047 /* MancalaClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MancalaClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB33F7D6253FD20F003D3047 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB33F7DF253FD214003D3047 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -30,8 +36,8 @@
 		AB33F7EB253FD33E003D3047 /* ClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientManager.swift; sourceTree = "<group>"; };
 		AB33F7EE253FD445003D3047 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		AB7A269D2543C99F00178D80 /* Cala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cala.swift; sourceTree = "<group>"; };
-		AB7A269F2543C9DE00178D80 /* CalaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalaButton.swift; sourceTree = "<group>"; };
-		AB7A26A22543CBA300178D80 /* UIView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extensions.swift"; sourceTree = "<group>"; };
+		AB7A269F2543C9DE00178D80 /* CustomButtonKala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonKala.swift; sourceTree = "<group>"; };
+		AB7A26A22543CBA300178D80 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AB7A26A42543CCA400178D80 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		ABD367412541318900C17530 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		ABD36745254131BA00C17530 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -68,7 +74,7 @@
 		AB33F7D5253FD20F003D3047 /* MancalaClient */ = {
 			isa = PBXGroup;
 			children = (
-				AB7A26A12543CB9500178D80 /* Extensions */,
+				AB7A26A12543CB9500178D80 /* Utils */,
 				ABD36743254131A500C17530 /* Views */,
 				ABD367402541316B00C17530 /* Controllers */,
 				AB33F7ED253FD43B003D3047 /* Model */,
@@ -98,12 +104,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		AB7A26A12543CB9500178D80 /* Extensions */ = {
+		AB7A26A12543CB9500178D80 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AB7A26A22543CBA300178D80 /* UIView + Extensions.swift */,
+				AB7A26A22543CBA300178D80 /* Extensions.swift */,
 			);
-			path = Extensions;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		ABD367402541316B00C17530 /* Controllers */ = {
@@ -120,7 +126,10 @@
 			isa = PBXGroup;
 			children = (
 				ABD36744254131AC00C17530 /*  CustomCells */,
-				AB7A269F2543C9DE00178D80 /* CalaButton.swift */,
+				AB7A269F2543C9DE00178D80 /* CustomButtonKala.swift */,
+				607A3CE62548D86000E51A5E /* CustomTextField.swift */,
+				607A3CE92548DC2900E51A5E /* CustomLabel.swift */,
+				607A3CED2548DD2500E51A5E /* CustomButtonAction.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,14 +213,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB7A26A52543CCA400178D80 /* GameViewController.swift in Sources */,
-				AB7A26A02543C9DE00178D80 /* CalaButton.swift in Sources */,
+				607A3CE72548D86000E51A5E /* CustomTextField.swift in Sources */,
+				AB7A26A02543C9DE00178D80 /* CustomButtonKala.swift in Sources */,
 				AB33F7EC253FD33E003D3047 /* ClientManager.swift in Sources */,
 				AB33F7EF253FD445003D3047 /* Message.swift in Sources */,
 				AB33F7D7253FD20F003D3047 /* AppDelegate.swift in Sources */,
 				AB7A269E2543C99F00178D80 /* Cala.swift in Sources */,
+				607A3CEA2548DC2900E51A5E /* CustomLabel.swift in Sources */,
 				ABD367482542784200C17530 /* InitialViewController.swift in Sources */,
+				607A3CEE2548DD2500E51A5E /* CustomButtonAction.swift in Sources */,
 				ABD367422541318900C17530 /* ChatViewController.swift in Sources */,
-				AB7A26A32543CBA300178D80 /* UIView + Extensions.swift in Sources */,
+				AB7A26A32543CBA300178D80 /* Extensions.swift in Sources */,
 				ABD36746254131BA00C17530 /* MessageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

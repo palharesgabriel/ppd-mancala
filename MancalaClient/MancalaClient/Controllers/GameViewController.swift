@@ -30,17 +30,6 @@ class GameViewController: UIViewController {
     // Vetor global que armazena os valores de todas as kallas
     var calas: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    // Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
-    // O primeiro que se conectar deve ter esta variável setada para true e o outro jogador para false
-    // O primeiro a se conectar fica sendo o jogador numero 01 e joga primeiro (true e true) o segundo a se conectar fica sendo o jogador numero 02 (false e false)
-    
-//    var isPlayerOne: Bool = false
-//    var isYourTurn: Bool = false {
-//        didSet {
-//            self.blockPlayer()
-//        }
-//    }
-    
     var playerTurn: PlayerTurn = .red
     var alert = UIAlertController()
     var firstConnection: Bool = true
@@ -49,14 +38,8 @@ class GameViewController: UIViewController {
     
     // MARK: - Properties
     
-    let buttonGiveUp: UIButton = {
-        let bt = UIButton()
-        bt.layer.cornerRadius = 30
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 32)
-        bt.backgroundColor = .systemOrange
-        bt.setDimensions(width: 200, height: 60)
-        bt.setTitle("Desistir", for: .normal)
-        bt.setTitleColor(.white, for: .normal)
+    let buttonGiveUp: CustomButtonAction = {
+        let bt = CustomButtonAction(title: "Desistir", width: 200, height: 60, sizeFont: 32)
         return bt
     }()
     
@@ -70,13 +53,8 @@ class GameViewController: UIViewController {
         return lb
     }()
     
-    let titleGame: UILabel = {
-        let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 80)
-        lb.textColor = .white
-        lb.text = "Macala"
-        lb.textAlignment = .center
-        lb.setDimensions(width: 800, height: 100)
+    let titleGame: CustomLabel = {
+        let lb = CustomLabel(title: "Macala", width: 800, height: 100, sizeFont: 80)
         return lb
     }()
     
@@ -106,7 +84,7 @@ class GameViewController: UIViewController {
     // MARK: - Selectors
     
     @objc func handleViewShiftControl() {
-        showAlert(title: "Aguarde", message: "O turno é do outro jogador!", type: .endGame)
+        createAlert(title: "Aguarde", message: "O turno é do outro jogador!", type: .endGame)
     }
     
     @objc func tapButton0() {
@@ -289,7 +267,7 @@ class GameViewController: UIViewController {
         
         if (condition1 || condition2 || position == 13 || position == 6)  {
             print("Movimento invalido")
-            showAlert(title: "Erro", message: "Movimento inválido", type: .invalidMove)
+            createAlert(title: "Erro", message: "Movimento inválido", type: .invalidMove)
             return
         }
 
@@ -319,16 +297,16 @@ class GameViewController: UIViewController {
             if winner == 1 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador vermelho venceu!!!", type: .endGame)
+                createAlert(title: "Parabéns", message: "Jogador vermelho venceu!!!", type: .endGame)
                 return
             } else if winner == 2 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador roxo venceu!!!", type: .endGame)
+                createAlert(title: "Parabéns", message: "Jogador roxo venceu!!!", type: .endGame)
                 return
             } else {
                 print("Jogo empatado!!!")
-                showAlert(title: "Nada mal", message: "Tivemos um empate técnico", type: .endGame)
+                createAlert(title: "Nada mal", message: "Tivemos um empate técnico", type: .endGame)
                 return
             }
         }
@@ -452,6 +430,8 @@ class GameViewController: UIViewController {
         
     }
     
+    // MARK: - Handlers
+    
     private func addChatController() {
         addChild(chatController)
         view.addSubview(chatController.view)
@@ -472,7 +452,7 @@ class GameViewController: UIViewController {
     
     private func moveHandler(with message: Message) {
         print(message)
-        print(Int(message.message) ?? "VEIO NULO ESSA BOSTA")
+        print(Int(message.message) ?? "Mensagem nula")
         guard let position = Int(message.message) else { return }
         play(position: position)
         updateUI(calas)
@@ -500,9 +480,9 @@ class GameViewController: UIViewController {
     
     private func giveUpHandler(with message: Message) {
         if message.message == "Vermelho" {
-            alert = showAlert(title: "Vermelho desistiu", message: "O Roxo venceu!", type: .endGame)
+            createAlert(title: "Vermelho desistiu", message: "O Roxo venceu!", type: .endGame)
         } else if message.message == "Roxo" {
-            alert = showAlert(title: "Roxo desistiu", message: "O Vermelho venceu!", type: .endGame)
+            createAlert(title: "Roxo desistiu", message: "O Vermelho venceu!", type: .endGame)
         }
         resetGame()
         self.updateUI(self.calas)

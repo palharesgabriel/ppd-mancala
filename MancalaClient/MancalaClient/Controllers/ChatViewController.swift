@@ -19,7 +19,7 @@ class ChatViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = .black
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +37,7 @@ class ChatViewController: UIViewController {
     
     private lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Send", for: .normal)
+        button.setTitle("Enviar", for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(sendMessageDidTapped), for: .touchUpInside)
         button.backgroundColor = .systemBlue
