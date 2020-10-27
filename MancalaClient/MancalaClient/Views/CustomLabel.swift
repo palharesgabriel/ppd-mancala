@@ -3,7 +3,7 @@
 //  MancalaClient
 //
 //  Created by Mateus Sales on 27/10/20.
-//  Copyright © 2020 Gabriel Palhares. All rights reserved.
+//  Copyright © 2020 Mateus Sales. All rights reserved.
 //
 
 import UIKit

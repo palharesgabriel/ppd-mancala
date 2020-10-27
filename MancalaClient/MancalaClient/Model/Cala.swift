@@ -2,8 +2,8 @@
 //  Cala.swift
 //  MancalaClient
 //
-//  Created by Gabriel Palhares on 23/10/20.
-//  Copyright © 2020 Gabriel Palhares. All rights reserved.
+//  Created by Mateus Sales on 23/10/20.
+//  Copyright © 2020 Mateus Sales. All rights reserved.
 //
 
 import Foundation

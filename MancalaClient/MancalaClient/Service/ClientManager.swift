@@ -2,8 +2,8 @@
 //  ClientManager.swift
 //  MancalaClient
 //
-//  Created by Gabriel Palhares on 20/10/20.
-//  Copyright © 2020 Gabriel Palhares. All rights reserved.
+//  Created by Mateus Sales on 20/10/20.
+//  Copyright © Mateus Sales. All rights reserved.
 //
 
 import Foundation
@@ -130,7 +130,7 @@ extension ClientManager: StreamDelegate {
                 break
             }
             
-            // Constrói a mensagem
+            // Constroi a mensagem
             if let message =
                 processedMessageString(buffer: buffer, length: numberOfBytesRead) {
                 
