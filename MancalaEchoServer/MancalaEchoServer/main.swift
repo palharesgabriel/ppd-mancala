@@ -223,10 +223,10 @@ class MancalaEchoServer {
             turnHandler(message: response)
         case "GVUP":
             giveupHandler(message: information.last ?? "")
-        case "RST-REQUEST":
-            requestToRestartHandler(message: response)
-        case "RST-RESPONSE":
-            responseToRestartHandler(message: response)
+        case "QUITCLIENT":
+            quitHandler()
+        case "RESTART":
+            restartHandler()
         default:
             print("Error")
         }
@@ -271,17 +271,7 @@ class MancalaEchoServer {
     }
     
     func giveupHandler(message: String) {
-        let reply = "GVUP:\(message) desistiu!"
-        do {
-            try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
-            disconnectSockets()
-        } catch {
-            print("Error")
-        }
-    }
-    
-    func requestToRestartHandler(message: String) {
-        let reply = "RST-REQUEST:\(message) deseja reiniciar a partida"
+        let reply = "GVUP:\(message)"
         do {
             try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
         } catch {
@@ -289,8 +279,17 @@ class MancalaEchoServer {
         }
     }
     
-    func responseToRestartHandler(message: String) {
-        let reply = message
+    func quitHandler() {
+        let reply = "QUITCLIENT"
+        do {
+            try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
+        } catch {
+            print("Error")
+        }
+    }
+    
+    func restartHandler() {
+        let reply = "RESTART"
         do {
             try self.connectedSockets.values.forEach { (try $0.write(from: reply)) }
         } catch {

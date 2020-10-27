@@ -60,9 +60,8 @@ class ClientManager: NSObject {
         send(data: data)
     }
     
-    func changeTurn(toPlayerOne: Bool) {
-        let message = toPlayerOne ? "isPlayerOne" : "isPlayerTwo"
-        let data = "TURN:\(message)".data(using: .utf8)!
+    func changeTurn(toPlayer: PlayerTurn) {
+        let data = "TURN:\(toPlayer.rawValue)".data(using: .utf8)!
         send(data: data)
     }
     
@@ -71,13 +70,18 @@ class ClientManager: NSObject {
         send(data: data)
     }
     
-    func requestToRestart(byUser user: String) {
-        let data = "RST-REQUEST:\(user)".data(using: .utf8)!
+    func quit() {
+        let data = "QUITCLIENT".data(using: .utf8)!
         send(data: data)
     }
     
-    func responseToRestart(byUser user: String, value: String) {
-        let data = "RST-RESPONSE:\(user);VALUE:\(value)".data(using: .utf8)!
+    func restart() {
+        let data = "RESTART".data(using: .utf8)!
+        send(data: data)
+    }
+    
+    func giveUp(player: PlayerTurn) {
+        let data = "GVUP:\(player.rawValue)".data(using: .utf8)!
         send(data: data)
     }
     
@@ -135,10 +139,6 @@ extension ClientManager: StreamDelegate {
                     if let moveMessage = processedMoveString(buffer: buffer, length: numberOfBytesRead) {
                         delegate?.didReceive(message: moveMessage)
                     }
-                } else if message.type.contains("RST-RESPONSE") {
-                    if let responseToRestartMessage = processedResponseToRestartString(buffer: buffer, length: numberOfBytesRead) {
-                        delegate?.didReceive(message: responseToRestartMessage)
-                    }
                 } else {
                     delegate?.didReceive(message: message)
                 }
@@ -184,21 +184,4 @@ extension ClientManager: StreamDelegate {
         
         return Message(type: type, message: message, username: name)
     }
-    
-    private func processedResponseToRestartString(buffer: UnsafeMutablePointer<UInt8>,
-                                                  length: Int) -> Message? {
-        guard let stringMessage = String(bytesNoCopy: buffer, length: length, encoding: .utf8, freeWhenDone: false) else {
-            print("Could not load message")
-            return nil
-        }
-        let stringArray = stringMessage.components(separatedBy: ";")
-        guard let type = stringArray.first?.components(separatedBy: ":").first,
-            let name = stringArray.first?.components(separatedBy: ":").last,
-            let message = stringArray.last?.components(separatedBy: ":").last else {
-                print("Could not load message")
-                return nil
-        }
-        return Message(type: type, message: message, username: name)
-    }
-    
 }

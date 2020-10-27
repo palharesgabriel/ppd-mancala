@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum AlertType {
+    case endGame
+    case invalidMove
+}
+
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
@@ -100,12 +105,26 @@ extension UIViewController {
         
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, type: AlertType) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        
-        alert.addAction(action)
+        switch type {
+        case .endGame:
+            let playAgainAction = UIAlertAction(title: "Jogar Novamente", style: .default, handler: { _ in
+                ClientManager.shared.restart()
+            })
+            let quitAction = UIAlertAction(title: "Sair", style: .destructive, handler: { _ in
+                ClientManager.shared.quit()
+            })
+            
+            alert.addAction(playAgainAction)
+            alert.addAction(quitAction)
+        case .invalidMove:
+            let action = UIAlertAction(title: "Ok", style: .destructive, handler: nil)
+            
+            alert.addAction(action)
+        }
         
         present(alert, animated: true, completion: nil)
+        return alert
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Player: String {
+enum PlayerTurn: String {
     case red = "Vermelho"
     case purple = "Roxo"
 }
@@ -18,9 +18,9 @@ class GameViewController: UIViewController {
     // MARK: - Variables
 
     // Kallas da 0 até a 6: Jogador 01, sendo o indice 6 a kalla principal
-    let calasPlayerOne = [0,1,2,3,4,5] // Vetor de indices
+    let calasPlayerRed = [0,1,2,3,4,5] // Vetor de indices
     // Kallas da 7 até a 13: Jogador 02, sendo o indice 13 a kalla principal
-    let calasPlayerTwo = [7,8,9,10,11,12] // Vetor de indices
+    let calasPlayerPurple = [7,8,9,10,11,12] // Vetor de indices
 
     // Se winner igual a 0 a partida foi empate
     // Se wiiner igual a 1 o jogador 1 venceu
@@ -33,12 +33,16 @@ class GameViewController: UIViewController {
     // Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
     // O primeiro que se conectar deve ter esta variável setada para true e o outro jogador para false
     // O primeiro a se conectar fica sendo o jogador numero 01 e joga primeiro (true e true) o segundo a se conectar fica sendo o jogador numero 02 (false e false)
-    var isPlayerOne: Bool = false
-    var isYourTurn: Bool = false {
-        didSet {
-            self.blockPlayer()
-        }
-    }
+    
+//    var isPlayerOne: Bool = false
+//    var isYourTurn: Bool = false {
+//        didSet {
+//            self.blockPlayer()
+//        }
+//    }
+    
+    var playerTurn: PlayerTurn = .red
+    var alert = UIAlertController()
     var firstConnection: Bool = true
     var username: String = ""
     let chatController = ChatViewController()
@@ -62,7 +66,6 @@ class GameViewController: UIViewController {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 40)
         lb.textColor = .white
-        lb.text = "Turno atual: Jogador 01"
         lb.setDimensions(width: 500, height: 50)
         return lb
     }()
@@ -94,8 +97,7 @@ class GameViewController: UIViewController {
         resetGame()
         updateUI(calas)
         createTargets()
-        blockPlayer()
-        checkTurn()
+        changeTurn(to: .red)
         ClientManager.shared.setupNetworkCommunication()
         ClientManager.shared.joinChat(username: username)
         ClientManager.shared.delegate = self
@@ -104,7 +106,7 @@ class GameViewController: UIViewController {
     // MARK: - Selectors
     
     @objc func handleViewShiftControl() {
-        showAlert(title: "Aguarde", message: "O turno é do outro jogador!")
+        showAlert(title: "Aguarde", message: "O turno é do outro jogador!", type: .endGame)
     }
     
     @objc func tapButton0() {
@@ -178,14 +180,7 @@ class GameViewController: UIViewController {
     }
     
     @objc func tapGiveUp() {
-        showAlert(title: "Você desistiu", message: "O outro jogador venceu!")
-        // Enviar uma mensagem vai socket sinalizando que o outro jogador venceu
-        
-        resetGame()
-        DispatchQueue.main.async {
-            self.updateUI(self.calas)
-        }
-
+        ClientManager.shared.giveUp(player: self.playerTurn)
     }
     
     // MARK: - Helpers
@@ -267,11 +262,11 @@ class GameViewController: UIViewController {
         
     }
     
-    func blockPlayer() {
-        if isYourTurn {
-            viewShiftControl.isHidden = true
-        } else {
+    func block(player: PlayerTurn) {
+        if player == playerTurn {
             viewShiftControl.isHidden = false
+        } else {
+            viewShiftControl.isHidden = true
         }
     }
     
@@ -289,12 +284,12 @@ class GameViewController: UIViewController {
     
     func play(position: Int) {
         
-        let condition1 = isPlayerOne && calasPlayerTwo.contains(position)
-        let condition2 = !isPlayerOne && calasPlayerOne.contains(position)
+        let condition1 = playerTurn == .red && calasPlayerPurple.contains(position)
+        let condition2 = playerTurn == .purple && calasPlayerRed.contains(position)
         
         if (condition1 || condition2 || position == 13 || position == 6)  {
             print("Movimento invalido")
-            showAlert(title: "Erro", message: "Movimento inválido")
+            showAlert(title: "Erro", message: "Movimento inválido", type: .invalidMove)
             return
         }
 
@@ -324,40 +319,48 @@ class GameViewController: UIViewController {
             if winner == 1 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador numero 1 venceu")
+                showAlert(title: "Parabéns", message: "Jogador vermelho venceu!!!", type: .endGame)
                 return
             } else if winner == 2 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador numero 2 venceu")
+                showAlert(title: "Parabéns", message: "Jogador roxo venceu!!!", type: .endGame)
                 return
             } else {
                 print("Jogo empatado!!!")
-                showAlert(title: "Nada mal", message: "Tivemos um empate técnico")
+                showAlert(title: "Nada mal", message: "Tivemos um empate técnico", type: .endGame)
                 return
             }
         }
         
-        if isPlayerOne {
-            if finalPosition == 6 {
-                isYourTurn = true
-            } else {
-                isYourTurn = false
+        if !shouldPlayAgain(finalPosition) {
+            playerTurn = playerTurn == .red ? .purple : .red
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                ClientManager.shared.changeTurn(toPlayer: self.playerTurn)
             }
         }
-        
-        if !isPlayerOne {
-            if finalPosition == 13 {
-                isYourTurn = true
-            } else {
-                isYourTurn = false
-            }
+
+    }
+    
+    func shouldPlayAgain(_ finalPosition: Int) -> Bool {
+        if finalPosition == 6 && playerTurn == .red {
+            return true
+        } else if finalPosition == 13 && playerTurn == .purple {
+            return true
         }
-        
-        checkTurn()
-        
-        blockPlayer()
-        // Ao final de cada jogada enviar via socket a posição no array selecionado do outro o jogador antes de liberar a interface pra ele jogar, deve chamar a função de play(indexDaJogada) e a uptadeUI()
+        return false
+    }
+    
+    func changeTurn(to player: PlayerTurn) {
+        if player == .red {
+            playerTurn = .red
+            label.text = "Turno do \(PlayerTurn.red.rawValue)"
+            block(player: .purple)
+        } else {
+            playerTurn = .purple
+            label.text = "Turno do \(PlayerTurn.purple.rawValue)"
+            block(player: .red)
+        }
     }
 
     // Função para validar se o jogo terminou, o jogo acaba quando um jogador tem todas as suas kallas - com exceção da kalla principal - sem nenhuma semente
@@ -365,15 +368,15 @@ class GameViewController: UIViewController {
     func gameOver() -> Bool {
         var final: Bool = true
 
-        if isPlayerOne {
-            for i in calasPlayerOne {
+        if playerTurn == .red {
+            for i in calasPlayerRed {
                 if calas[i] > 0 {
                     final = false
                 }
             }
 
         } else {
-            for i in calasPlayerTwo {
+            for i in calasPlayerPurple {
                 if calas[i] > 0 {
                     final = false
                 }
@@ -396,23 +399,6 @@ class GameViewController: UIViewController {
         }
     }
     
-    // Verifica de quem é o turno
-    func checkTurn() {
-        if isPlayerOne {
-            if isYourTurn {
-                label.text = "Turno atual: Jogador 01"
-            } else {
-                label.text = "Turno atual: Jogador 02"
-            }
-        } else {
-            if isYourTurn {
-                label.text = "Turno atual: Jogador 02"
-            } else {
-                label.text = "Turno atual: Jogador 01"
-            }
-        }
-    }
-
     // Função para somar os valores de duas kallas comuns, depois somar com o valor da kalla principal e por fim resetar as duas kallas comuns
     func operationCalas(indexOne: Int, indexTwo: Int, indexPrincipal: Int) {
         let aux = calas[indexOne] + calas[indexTwo]
@@ -420,23 +406,12 @@ class GameViewController: UIViewController {
         calas[indexOne] = 0
         calas[indexTwo] = 0
     }
-    
-    func checkMoviment(_ position: Int) {
-        let condition1 = isPlayerOne && calasPlayerTwo.contains(position)
-        let condition2 = !isPlayerOne && calasPlayerOne.contains(position)
-        
-        if (condition1 || condition2)  {
-            print("Movimento invalido")
-            return
-            // break
-        }
-    }
 
     // Função que de acordo com o jogador verifica se a última semente ficou
     func capture(finalPosition: Int) {
         // Quem está jogando é o jogador numero 1
-        if isPlayerOne {
-            if calasPlayerOne.contains(finalPosition) {
+        if playerTurn == .red {
+            if calasPlayerRed.contains(finalPosition) {
                 if calas[finalPosition] == 1 {
                     switch finalPosition {
                     case 0:
@@ -455,7 +430,7 @@ class GameViewController: UIViewController {
                 }
             }
         } else {
-            if calasPlayerTwo.contains(finalPosition) {
+            if calasPlayerPurple.contains(finalPosition) {
                 if calas[finalPosition] == 1 {
                     switch finalPosition {
                     case 7:
@@ -492,15 +467,12 @@ class GameViewController: UIViewController {
     }
     
     private func messageHandler(with message: Message) {
-        if firstConnection {
-            isPlayerOne = true
-            isYourTurn = true
-            firstConnection = false
-        }
         chatController.insertNewMessageCell(message)
     }
     
     private func moveHandler(with message: Message) {
+        print(message)
+        print(Int(message.message) ?? "VEIO NULO ESSA BOSTA")
         guard let position = Int(message.message) else { return }
         play(position: position)
         updateUI(calas)
@@ -508,95 +480,35 @@ class GameViewController: UIViewController {
     }
     
     private func turnHandler(with message: Message) {
-        isPlayerOne = message.message == "isPlayerOne"
+        if message.message == "Vermelho" {
+            changeTurn(to: .red)
+        } else {
+            changeTurn(to: .purple)
+        }
+    }
+    
+    private func quitHandler() {
+        self.navigationController?.popToRootViewController(animated: true)
+        alert.dismiss(animated: true, completion: nil)
+    }
+    
+    private func restartHandler() {
+        resetGame()
+        updateUI(calas)
+        alert.dismiss(animated: true, completion: nil)
+    }
+    
+    private func giveUpHandler(with message: Message) {
+        if message.message == "Vermelho" {
+            alert = showAlert(title: "Vermelho desistiu", message: "O Roxo venceu!", type: .endGame)
+        } else if message.message == "Roxo" {
+            alert = showAlert(title: "Roxo desistiu", message: "O Vermelho venceu!", type: .endGame)
+        }
+        resetGame()
+        self.updateUI(self.calas)
     }
     
 }
-
-    
-//    @objc func giveupAction() {
-//          let user = self.chatTable.viewControllers.first as! ChatViewController
-//          let data = "GVUP:\(user.username)".data(using: .utf8)
-//          ServerManager.shared.send(data: data!)
-//      }
-//
-//      @objc func requestToRestartAction() {
-//          let chatViewController = self.chatTable.viewControllers.first as! ChatViewController
-//          let user = chatViewController.username
-//          let alertController = UIAlertController(title: "REINICIAR?", message: "Solicitar reinicio de partida", preferredStyle: .alert)
-//          let action1 = UIAlertAction(title: "Sim", style: .default) { (action) in
-//              ServerManager.shared.requestToRestart(byUser: user)
-//          }
-//          let action2 = UIAlertAction(title: "Não", style: .cancel) { (action) in
-//
-//          }
-//          alertController.addAction(action1)
-//          alertController.addAction(action2)
-//          self.present(alertController, animated: true, completion: nil)
-//      }
-//
-//      func log(message: Message) {
-//          print("LOG: => \(message.type);\(message.message);")
-//      }
-//
-//      func giveupHandler(_ message: Message) {
-//          let user = self.chatTable.viewControllers.first as! ChatViewController
-//          var giveupMessage: String
-//
-//          giveupMessage = message.senderUsername == user.username ? "Você perdeu por desistir, até a próxima!" : "Parabéns, você venceu devido a desistência do adversário!"
-//
-//          let alertController = UIAlertController(title: "FIM DE JOGO", message: giveupMessage, preferredStyle: .alert)
-//          let action1 = UIAlertAction(title: "Ok", style: .cancel) { (action) in
-//              self.navigationController?.pushViewController(InitialViewController(), animated: true)
-//          }
-//          let action2 = UIAlertAction(title: "Restart", style: .default) { (action) in
-//              ServerManager.shared.setupNetworkCommunication()
-//              self.requestToRestartAction()
-//          }
-//          alertController.addAction(action1)
-//          alertController.addAction(action2)
-//          self.present(alertController, animated: true, completion: nil)
-//
-//      }
-//
-//      func requestToRestartHandler(_ message: Message) {
-//          let chatViewController = chatTable.viewControllers.first as! ChatViewController
-//          let user = chatViewController.username
-//
-//          let alertController = UIAlertController(title: "REINICIAR?", message: message.message, preferredStyle: .alert)
-//          let action1 = UIAlertAction(title: "Sim", style: .default) { (action) in
-//              ServerManager.shared.responseToRestart(byUser: user, value: "yes")
-//          }
-//          let action2 = UIAlertAction(title: "Não", style: .cancel) { (action) in
-//              ServerManager.shared.responseToRestart(byUser: user, value: "no")
-//          }
-//          alertController.addAction(action1)
-//          alertController.addAction(action2)
-//          self.present(alertController, animated: true, completion: nil)
-//      }
-//
-//      func responseToRestartHandler(_ message: Message) {
-//          guard let gameScene = game else {
-//              fatalError("Could not load game scene")
-//          }
-//          let chatViewController = chatTable.viewControllers.first as! ChatViewController
-//          let user = chatViewController.username
-//
-//          let alertController = UIAlertController(title: "Solicitação negada", message: "\(message.senderUsername) recusou o seu convite", preferredStyle: .alert)
-//          let action1 = UIAlertAction(title: "Ok", style: .default) { (_) in }
-//          alertController.addAction(action1)
-//
-//          if message.message == "yes" {
-//              gameScene.restartGame()
-//          } else {
-//              if message.senderUsername != user {
-//                  self.present(alertController, animated: true, completion: nil)
-//              }
-//          }
-//      }
-//
-//}
-
 
 extension GameViewController: ClientManagerDelegate {
     func didReceive(message: Message) {
@@ -607,14 +519,12 @@ extension GameViewController: ClientManagerDelegate {
             moveHandler(with: message)
         case "TURN":
             turnHandler(with: message)
-//        case "GVUP":
-//            giveupHandler(message)
-//        case "RST-REQUEST":
-//            if message.senderUsername != chat.username {
-//                requestToRestartHandler(message)
-//            }
-//        case "RST-RESPONSE":
-//            responseToRestartHandler(message)
+        case "QUITCLIENT":
+            quitHandler()
+        case "RESTART":
+            restartHandler()
+        case "GVUP":
+            giveUpHandler(with: message)
         default:
             print("Error")
         }
