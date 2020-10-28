@@ -74,7 +74,7 @@ class GameViewController: UIViewController {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 80)
         lb.textColor = .white
-        lb.text = "Macala"
+        lb.text = "Mancala"
         lb.textAlignment = .center
         lb.setDimensions(width: 800, height: 100)
         return lb
@@ -319,12 +319,12 @@ class GameViewController: UIViewController {
             if winner == 1 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador vermelho venceu!!!", type: .endGame)
+                showAlert(title: "Parabéns", message: "O \(PlayerTurn.red.rawValue) venceu!!!", type: .endGame)
                 return
             } else if winner == 2 {
                 // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "Jogador roxo venceu!!!", type: .endGame)
+                showAlert(title: "Parabéns", message: "O \(PlayerTurn.purple.rawValue) venceu!!!", type: .endGame)
                 return
             } else {
                 print("Jogo empatado!!!")
