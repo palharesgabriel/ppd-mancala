@@ -9,39 +9,22 @@
 import UIKit
 
 enum PlayerTurn: String {
-    case red = "Vermelho"
-    case purple = "Roxo"
+    case green = "Verde"
+    case orange = "Laranja"
 }
 
 class GameViewController: UIViewController {
     
     // MARK: - Variables
 
-    // Kallas da 0 até a 6: Jogador 01, sendo o indice 6 a kalla principal
-    let calasPlayerRed = [0,1,2,3,4,5] // Vetor de indices
-    // Kallas da 7 até a 13: Jogador 02, sendo o indice 13 a kalla principal
-    let calasPlayerPurple = [7,8,9,10,11,12] // Vetor de indices
-
-    // Se winner igual a 0 a partida foi empate
-    // Se wiiner igual a 1 o jogador 1 venceu
-    // Se wiiner igual a 2 o jogador 2 venceu
+    let calasPlayerGreen = [0,1,2,3,4,5]
+    let calasPlayerOrange = [7,8,9,10,11,12]
+    
     var winner: Int = -1
 
-    // Vetor global que armazena os valores de todas as kallas
     var calas: [Int] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-
-    // Se o turno atual for true quem joga é o jogador 01 e se for false quem joga é jogador 2
-    // O primeiro que se conectar deve ter esta variável setada para true e o outro jogador para false
-    // O primeiro a se conectar fica sendo o jogador numero 01 e joga primeiro (true e true) o segundo a se conectar fica sendo o jogador numero 02 (false e false)
     
-//    var isPlayerOne: Bool = false
-//    var isYourTurn: Bool = false {
-//        didSet {
-//            self.blockPlayer()
-//        }
-//    }
-    
-    var playerTurn: PlayerTurn = .red
+    var playerTurn: PlayerTurn = .green
     var alert = UIAlertController()
     var firstConnection: Bool = true
     var username: String = ""
@@ -51,21 +34,21 @@ class GameViewController: UIViewController {
     
     let buttonGiveUp: UIButton = {
         let bt = UIButton()
-        bt.layer.cornerRadius = 30
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 32)
-        bt.backgroundColor = .systemOrange
+        bt.backgroundColor = .black
         bt.setDimensions(width: 200, height: 60)
         bt.setTitle("Desistir", for: .normal)
         bt.setTitleColor(.white, for: .normal)
         return bt
     }()
     
-    var buttons = [CustomButton(type: .commonCala, color: .red), CustomButton(type: .commonCala, color: .red), CustomButton(type: .commonCala, color: .red), CustomButton(type: .commonCala, color: .red),CustomButton(type: .commonCala, color: .red), CustomButton(type: .commonCala, color: .red), CustomButton(type: .mainCala, color: .red), CustomButton(type: .commonCala, color: .systemPurple), CustomButton(type: .commonCala, color: .systemPurple), CustomButton(type: .commonCala, color: .systemPurple), CustomButton(type: .commonCala, color: .systemPurple),CustomButton(type: .commonCala, color: .systemPurple), CustomButton(type: .commonCala, color: .systemPurple),CustomButton(type: .mainCala, color: .systemPurple)]
+    var buttons = [CustomButton(type: .commonCala, color: .systemGreen), CustomButton(type: .commonCala, color: .systemGreen), CustomButton(type: .commonCala, color: .systemGreen), CustomButton(type: .commonCala, color: .systemGreen),CustomButton(type: .commonCala, color: .systemGreen), CustomButton(type: .commonCala, color: .systemGreen), CustomButton(type: .mainCala, color: .systemGreen), CustomButton(type: .commonCala, color: .orange), CustomButton(type: .commonCala, color: .orange), CustomButton(type: .commonCala, color: .orange), CustomButton(type: .commonCala, color: .orange),CustomButton(type: .commonCala, color: .orange), CustomButton(type: .commonCala, color: .orange),CustomButton(type: .mainCala, color: .orange)]
     
     let label: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 40)
-        lb.textColor = .white
+        lb.font = UIFont.boldSystemFont(ofSize: 28)
+        lb.textColor = .black
+        lb.textAlignment = .center
         lb.setDimensions(width: 500, height: 50)
         return lb
     }()
@@ -73,7 +56,7 @@ class GameViewController: UIViewController {
     let titleGame: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 80)
-        lb.textColor = .white
+        lb.textColor = .black
         lb.text = "Mancala"
         lb.textAlignment = .center
         lb.setDimensions(width: 800, height: 100)
@@ -91,13 +74,13 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         chatController.username = username
         configureUI()
         resetGame()
         updateUI(calas)
         createTargets()
-        changeTurn(to: .red)
+        changeTurn(to: .green)
         ClientManager.shared.setupNetworkCommunication()
         ClientManager.shared.joinChat(username: username)
         ClientManager.shared.delegate = self
@@ -245,11 +228,13 @@ class GameViewController: UIViewController {
         buttons[4].anchor(top: buttons[8].bottomAnchor, left: buttons[3].rightAnchor, paddingTop: 80, paddingLeft: 8)
         buttons[5].anchor(top: buttons[7].bottomAnchor, left: buttons[4].rightAnchor, paddingTop: 80, paddingLeft: 8)
         
-        label.anchor(top: buttons[13].bottomAnchor, left: view.leftAnchor, paddingTop: 50, paddingLeft: 45)
+        label.anchor(top: titleGame.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 45, paddingRight: 45)
         
-        buttonGiveUp.anchor(top: buttons[6].bottomAnchor, right: view.rightAnchor, paddingTop: 50, paddingRight: 45)
+        buttonGiveUp.anchor(top: buttons[6].bottomAnchor, paddingTop: 50)
+        buttonGiveUp.centerX(inView: view)
+        buttonGiveUp.setDimensions(width: 200, height: 60)
         
-        titleGame.anchor(top: view.topAnchor, paddingTop: 45)
+        titleGame.anchor(top: view.topAnchor, paddingTop: 15)
         titleGame.centerX(inView: view)
         viewShiftControl.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         addChatController()
@@ -277,15 +262,15 @@ class GameViewController: UIViewController {
         for i in 0...13 {
             calas[i] = 4
         }
-        // As kallas principais começam com valores zerados
+        
         calas[6] = 0
         calas[13] = 0
     }
     
     func play(position: Int) {
 
-        let condition1 = playerTurn == .red && calasPlayerPurple.contains(position)
-        let condition2 = playerTurn == .purple && calasPlayerRed.contains(position)
+        let condition1 = playerTurn == .green && calasPlayerOrange.contains(position)
+        let condition2 = playerTurn == .orange && calasPlayerGreen.contains(position)
         
         if (condition1 || condition2 || position == 13 || position == 6)  {
             print("Movimento invalido")
@@ -297,7 +282,6 @@ class GameViewController: UIViewController {
         var aux = 0
         var index = position + 1
         
-        // Vai executar conforme a quantidade de sementes da Cala
         while (aux != value) {
             calas[index] = calas[index] + 1
             aux = aux + 1
@@ -305,7 +289,6 @@ class GameViewController: UIViewController {
             if index == 14 {
                 index = 0
             }
-
         }
         
         calas[position] = 0
@@ -317,14 +300,12 @@ class GameViewController: UIViewController {
         if gameOver() {
             hasWinner()
             if winner == 1 {
-                // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "O \(PlayerTurn.red.rawValue) venceu!!!", type: .endGame)
+                showAlert(title: "Parabéns", message: "O \(PlayerTurn.green.rawValue) venceu!!!", type: .endGame)
                 return
             } else if winner == 2 {
-                // Parar o jogo
                 print("Jogador numero 1 venceu, parabéns!!!")
-                showAlert(title: "Parabéns", message: "O \(PlayerTurn.purple.rawValue) venceu!!!", type: .endGame)
+                showAlert(title: "Parabéns", message: "O \(PlayerTurn.orange.rawValue) venceu!!!", type: .endGame)
                 return
             } else {
                 print("Jogo empatado!!!")
@@ -334,49 +315,46 @@ class GameViewController: UIViewController {
         }
         
         if !shouldPlayAgain(finalPosition) {
-            playerTurn = playerTurn == .red ? .purple : .red
+            playerTurn = playerTurn == .green ? .orange : .green
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 ClientManager.shared.changeTurn(toPlayer: self.playerTurn)
             }
         }
-
     }
     
     func shouldPlayAgain(_ finalPosition: Int) -> Bool {
-        if finalPosition == 6 && playerTurn == .red {
+        if finalPosition == 6 && playerTurn == .green {
             return true
-        } else if finalPosition == 13 && playerTurn == .purple {
+        } else if finalPosition == 13 && playerTurn == .orange {
             return true
         }
         return false
     }
     
     func changeTurn(to player: PlayerTurn) {
-        if player == .red {
-            playerTurn = .red
-            label.text = "Turno do \(PlayerTurn.red.rawValue)"
-            block(player: .purple)
+        if player == .green {
+            playerTurn = .green
+            label.text = "Turno do \(PlayerTurn.green.rawValue)"
+            block(player: .orange)
         } else {
-            playerTurn = .purple
-            label.text = "Turno do \(PlayerTurn.purple.rawValue)"
-            block(player: .red)
+            playerTurn = .orange
+            label.text = "Turno do \(PlayerTurn.orange.rawValue)"
+            block(player: .green)
         }
     }
-
-    // Função para validar se o jogo terminou, o jogo acaba quando um jogador tem todas as suas kallas - com exceção da kalla principal - sem nenhuma semente
 
     func gameOver() -> Bool {
         var final: Bool = true
 
-        if playerTurn == .red {
-            for i in calasPlayerRed {
+        if playerTurn == .green {
+            for i in calasPlayerGreen {
                 if calas[i] > 0 {
                     final = false
                 }
             }
 
         } else {
-            for i in calasPlayerPurple {
+            for i in calasPlayerOrange {
                 if calas[i] > 0 {
                     final = false
                 }
@@ -386,7 +364,6 @@ class GameViewController: UIViewController {
         return final
     }
 
-    // Depois de verificado se o jogo terminou, precisamos verificar quem o vencedor ou se a partida saiu empatada
     func hasWinner() {
         if gameOver() {
             if calas[6] > calas[13] {
@@ -399,7 +376,6 @@ class GameViewController: UIViewController {
         }
     }
     
-    // Função para somar os valores de duas kallas comuns, depois somar com o valor da kalla principal e por fim resetar as duas kallas comuns
     func operationCalas(indexOne: Int, indexTwo: Int, indexPrincipal: Int) {
         let aux = calas[indexOne] + calas[indexTwo]
         calas[indexPrincipal] = calas[indexPrincipal] + aux
@@ -407,11 +383,9 @@ class GameViewController: UIViewController {
         calas[indexTwo] = 0
     }
 
-    // Função que de acordo com o jogador verifica se a última semente ficou
     func capture(finalPosition: Int) {
-        // Quem está jogando é o jogador numero 1
-        if playerTurn == .red {
-            if calasPlayerRed.contains(finalPosition) {
+        if playerTurn == .green {
+            if calasPlayerGreen.contains(finalPosition) {
                 if calas[finalPosition] == 1 {
                     switch finalPosition {
                     case 0:
@@ -430,7 +404,7 @@ class GameViewController: UIViewController {
                 }
             }
         } else {
-            if calasPlayerPurple.contains(finalPosition) {
+            if calasPlayerOrange.contains(finalPosition) {
                 if calas[finalPosition] == 1 {
                     switch finalPosition {
                     case 7:
@@ -480,10 +454,10 @@ class GameViewController: UIViewController {
     }
     
     private func turnHandler(with message: Message) {
-        if message.message == "Vermelho" {
-            changeTurn(to: .red)
+        if message.message == "Verde" {
+            changeTurn(to: .green)
         } else {
-            changeTurn(to: .purple)
+            changeTurn(to: .orange)
         }
     }
     
@@ -499,10 +473,10 @@ class GameViewController: UIViewController {
     }
     
     private func giveUpHandler(with message: Message) {
-        if message.message == "Vermelho" {
-            alert = showAlert(title: "Vermelho desistiu", message: "O Roxo venceu!", type: .endGame)
-        } else if message.message == "Roxo" {
-            alert = showAlert(title: "Roxo desistiu", message: "O Vermelho venceu!", type: .endGame)
+        if message.message == "Verde" {
+            alert = showAlert(title: "Verde desistiu", message: "O Laranja venceu!", type: .endGame)
+        } else if message.message == "Laranja" {
+            alert = showAlert(title: "Laranja desistiu", message: "O Verde venceu!", type: .endGame)
         }
         resetGame()
         self.updateUI(self.calas)
@@ -530,4 +504,3 @@ extension GameViewController: ClientManagerDelegate {
         }
     }
 }
-

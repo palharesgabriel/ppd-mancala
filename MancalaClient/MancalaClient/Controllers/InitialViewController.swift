@@ -10,7 +10,6 @@ import UIKit
 
 class InitialViewController: UIViewController {
     
-    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -19,14 +18,15 @@ class InitialViewController: UIViewController {
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         label.font = UIFont.boldSystemFont(ofSize: 80)
-        label.textColor = .red
+        label.textColor = .black
         return label
     }()
     
     let playerName: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.placeholder = " Digite seu nome "
+        textField.backgroundColor = .darkGray
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string: " Digite seu nome ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.layer.cornerRadius = 5
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -34,8 +34,9 @@ class InitialViewController: UIViewController {
     
     let ipHost: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.placeholder = " Digite o IP "
+        textField.backgroundColor = .darkGray
+        textField.textColor = .white
+        textField.attributedPlaceholder = NSAttributedString(string: " Digite o IP ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.layer.cornerRadius = 5
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -43,8 +44,9 @@ class InitialViewController: UIViewController {
     
     let port: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.placeholder = " Digite a Porta "
+        textField.backgroundColor = .darkGray
+        textField.attributedPlaceholder = NSAttributedString(string: " Digite a Porta ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.textColor = .white
         textField.layer.cornerRadius = 5
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -52,20 +54,19 @@ class InitialViewController: UIViewController {
     
     lazy var playButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemRed
+        button.backgroundColor = .black
         button.setTitle("Jogar", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
         button.addTarget(self, action:#selector(goToChatController), for: .touchUpInside)
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         buildViewHierarchy()
         setupConstraints()
     }

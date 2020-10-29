@@ -119,7 +119,7 @@ extension UIViewController {
             alert.addAction(playAgainAction)
             alert.addAction(quitAction)
         case .invalidMove:
-            let action = UIAlertAction(title: "Ok", style: .destructive, handler: nil)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
             
             alert.addAction(action)
         }

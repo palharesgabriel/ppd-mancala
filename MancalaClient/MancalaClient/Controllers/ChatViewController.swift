@@ -19,7 +19,7 @@ class ChatViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = .white
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +30,8 @@ class ChatViewController: UIViewController {
     private lazy var chatInput: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .white
+        textView.backgroundColor = .gray
+        textView.textColor = .white
         textView.layer.cornerRadius = 8
         return textView
     }()
@@ -40,7 +41,7 @@ class ChatViewController: UIViewController {
         button.setTitle("Send", for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(sendMessageDidTapped), for: .touchUpInside)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 8
         return button
@@ -52,7 +53,7 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         
         setupNavigationController()
         setupConstraints()

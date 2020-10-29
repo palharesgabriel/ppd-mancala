@@ -18,14 +18,12 @@ class CustomButton: UIButton {
         super.init(frame: .zero)
         switch type {
         case .commonCala:
-            layer.cornerRadius = 10
             titleLabel?.font = UIFont.boldSystemFont(ofSize: 42)
             backgroundColor = color
             setDimensions(width: 80, height: 80)
             setTitle("0", for: .normal)
             setTitleColor(.white, for: .normal)
         case .mainCala:
-            layer.cornerRadius = 10
             titleLabel?.font = UIFont.boldSystemFont(ofSize: 42)
             backgroundColor = color
             setDimensions(width: 100, height: 240)

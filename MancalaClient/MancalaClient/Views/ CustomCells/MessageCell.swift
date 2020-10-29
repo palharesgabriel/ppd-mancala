@@ -34,7 +34,7 @@ class MessageCell: UITableViewCell {
         message.textColor = .white
         message.font = UIFont(name: "Helvetica", size: 11)
         message.translatesAutoresizingMaskIntoConstraints = false
-        message.backgroundColor = .systemBlue
+        message.backgroundColor = .black
         message.clipsToBounds = true
         message.layer.cornerRadius = 5
         message.numberOfLines = 0
@@ -85,7 +85,7 @@ extension MessageCell {
         nameLabel.isHidden = true
         
         messageLabel.center = CGPoint(x: bounds.size.width - messageLabel.bounds.size.width/2.0 - 16, y: bounds.size.height/2.0)
-        messageLabel.backgroundColor = UIColor(red: 24 / 255, green: 180 / 255, blue: 128 / 255, alpha: 1.0)
+        messageLabel.backgroundColor = .darkGray
       } else {
         nameLabel.isHidden = false
         nameLabel.sizeToFit()
@@ -101,8 +101,8 @@ extension MessageCell {
   
   func layoutForJoinMessage() {
     messageLabel.font = UIFont.systemFont(ofSize: 10)
-    messageLabel.textColor = .lightGray
-    messageLabel.backgroundColor = UIColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1.0)
+    messageLabel.textColor = .white
+    messageLabel.backgroundColor = .darkGray
     
     let size = messageLabel.sizeThatFits(CGSize(width: 2 * (bounds.size.width / 3), height: .greatestFiniteMagnitude))
     messageLabel.frame = CGRect(x: 0, y: 0, width: size.width + 32, height: size.height + 16)
