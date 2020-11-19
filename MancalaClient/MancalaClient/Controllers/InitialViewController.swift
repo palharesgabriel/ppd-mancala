@@ -32,6 +32,16 @@ class InitialViewController: UIViewController {
         return textField
     }()
     
+    let oponentPort: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .darkGray
+        textField.attributedPlaceholder = NSAttributedString(string: " Porta Oponent ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.textColor = .white
+        textField.layer.cornerRadius = 5
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     let ipHost: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .darkGray
@@ -45,7 +55,7 @@ class InitialViewController: UIViewController {
     let port: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .darkGray
-        textField.attributedPlaceholder = NSAttributedString(string: " Digite a Porta ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.attributedPlaceholder = NSAttributedString(string: " Sua porta ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.textColor = .white
         textField.layer.cornerRadius = 5
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -69,21 +79,30 @@ class InitialViewController: UIViewController {
         view.backgroundColor = .white
         buildViewHierarchy()
         setupConstraints()
+        getHostIpAddress()
     }
     
     @objc func goToChatController() {
+        let address = getAddress()
+        Server.shared
+            .setPort(port.text!)
+            .start()
+        
+        Client.shared.connect(address: address, port: oponentPort.text!) {
+            Client.shared.identifyPlayer(playerType: "Verde")
+        }
+        
         let gameViewController = GameViewController()
         if let username = playerName.text {
             gameViewController.username = username
             navigationController?.pushViewController(gameViewController, animated: true)
         }
-        ClientManager.shared.ipHost = ipHost.text ?? "127.0.0.1"
-        ClientManager.shared.port = port.text ?? "5000"
     }
     
     fileprivate func buildViewHierarchy() {
         view.addSubview(titleLabel)
         view.addSubview(port)
+        view.addSubview(oponentPort)
         view.addSubview(ipHost)
         view.addSubview(playerName)
         view.addSubview(playButton)
@@ -101,8 +120,13 @@ class InitialViewController: UIViewController {
             playerName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             playerName.heightAnchor.constraint(equalToConstant: 50),
             playerName.widthAnchor.constraint(equalToConstant: 200),
-
-            ipHost.topAnchor.constraint(equalTo: playerName.bottomAnchor, constant: 20),
+            
+            oponentPort.topAnchor.constraint(equalTo: playerName.bottomAnchor, constant: 20),
+            oponentPort.centerXAnchor.constraint(equalTo: playerName.centerXAnchor),
+            oponentPort.heightAnchor.constraint(equalToConstant: 50),
+            oponentPort.widthAnchor.constraint(equalToConstant: 200),
+            
+            ipHost.topAnchor.constraint(equalTo: oponentPort.bottomAnchor, constant: 20),
             ipHost.centerXAnchor.constraint(equalTo: playerName.centerXAnchor),
             ipHost.heightAnchor.constraint(equalToConstant: 50),
             ipHost.widthAnchor.constraint(equalToConstant: 200),
@@ -120,6 +144,25 @@ class InitialViewController: UIViewController {
         ])
     }
     
+    func getHostIpAddress() {
+        guard let wifiAddress = Server.shared.getWiFiAddress() else {
+            print("Could not get wifi address.")
+            return
+        }
+        print("Current Address: \(wifiAddress)")
+    }
+
+    func getAddress() -> String {
+        let wifiAddress = Server.shared.getWiFiAddress()
+        var address = ""
+        if let clientAddress = ipHost.text,
+            clientAddress.lowercased() == "localhost" {
+            address = wifiAddress!
+        } else {
+            address = ipHost.text!
+        }
+        return address
+    }
 
 }
 

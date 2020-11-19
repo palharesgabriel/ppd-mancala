@@ -3,14 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		AB33F7D7253FD20F003D3047 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7D6253FD20F003D3047 /* AppDelegate.swift */; };
 		AB33F7E0253FD214003D3047 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB33F7DF253FD214003D3047 /* Assets.xcassets */; };
 		AB33F7E3253FD214003D3047 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB33F7E1253FD214003D3047 /* LaunchScreen.storyboard */; };
-		AB33F7EC253FD33E003D3047 /* ClientManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7EB253FD33E003D3047 /* ClientManager.swift */; };
 		AB33F7EF253FD445003D3047 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB33F7EE253FD445003D3047 /* Message.swift */; };
 		AB7A269E2543C99F00178D80 /* Cala.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A269D2543C99F00178D80 /* Cala.swift */; };
 		AB7A26A02543C9DE00178D80 /* CalaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7A269F2543C9DE00178D80 /* CalaButton.swift */; };
@@ -19,15 +18,22 @@
 		ABD367422541318900C17530 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD367412541318900C17530 /* ChatViewController.swift */; };
 		ABD36746254131BA00C17530 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD36745254131BA00C17530 /* MessageCell.swift */; };
 		ABD367482542784200C17530 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD367472542784200C17530 /* InitialViewController.swift */; };
+		ABF873DE2565E761001A42D8 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF873DD2565E761001A42D8 /* Client.swift */; };
+		ABF873E02565E76D001A42D8 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF873DF2565E76D001A42D8 /* Server.swift */; };
+		ABF873E22565E776001A42D8 /* CCGameProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF873E12565E776001A42D8 /* CCGameProvider.swift */; };
+		ABF873E52565F104001A42D8 /* macala.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF873E32565F103001A42D8 /* macala.pb.swift */; };
+		ABF873E62565F104001A42D8 /* macala.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF873E42565F104001A42D8 /* macala.grpc.swift */; };
+		CB9690E87B17FEA9026018C6 /* Pods_MancalaClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95E9A2CFC47FAB5F3243C48 /* Pods_MancalaClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		081DF763591298CF295033C1 /* Pods-MancalaClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MancalaClient.release.xcconfig"; path = "Target Support Files/Pods-MancalaClient/Pods-MancalaClient.release.xcconfig"; sourceTree = "<group>"; };
+		A95E9A2CFC47FAB5F3243C48 /* Pods_MancalaClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MancalaClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB33F7D3253FD20F003D3047 /* MancalaClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MancalaClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB33F7D6253FD20F003D3047 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB33F7DF253FD214003D3047 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB33F7E2253FD214003D3047 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB33F7E4253FD214003D3047 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AB33F7EB253FD33E003D3047 /* ClientManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientManager.swift; sourceTree = "<group>"; };
 		AB33F7EE253FD445003D3047 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		AB7A269D2543C99F00178D80 /* Cala.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cala.swift; sourceTree = "<group>"; };
 		AB7A269F2543C9DE00178D80 /* CalaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalaButton.swift; sourceTree = "<group>"; };
@@ -36,6 +42,12 @@
 		ABD367412541318900C17530 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		ABD36745254131BA00C17530 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		ABD367472542784200C17530 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		ABF873DD2565E761001A42D8 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		ABF873DF2565E76D001A42D8 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		ABF873E12565E776001A42D8 /* CCGameProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCGameProvider.swift; sourceTree = "<group>"; };
+		ABF873E32565F103001A42D8 /* macala.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macala.pb.swift; sourceTree = "<group>"; };
+		ABF873E42565F104001A42D8 /* macala.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macala.grpc.swift; sourceTree = "<group>"; };
+		F3AED62EB5B60601DD9D01C4 /* Pods-MancalaClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MancalaClient.debug.xcconfig"; path = "Target Support Files/Pods-MancalaClient/Pods-MancalaClient.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,17 +55,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB9690E87B17FEA9026018C6 /* Pods_MancalaClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1899A3618E2CC3C8C7CEB9DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A95E9A2CFC47FAB5F3243C48 /* Pods_MancalaClient.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AB33F7CA253FD20F003D3047 = {
 			isa = PBXGroup;
 			children = (
 				AB33F7D5253FD20F003D3047 /* MancalaClient */,
 				AB33F7D4253FD20F003D3047 /* Products */,
+				D3B2B5F9448CA14024BCAA99 /* Pods */,
+				1899A3618E2CC3C8C7CEB9DA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,6 +91,8 @@
 		AB33F7D5253FD20F003D3047 /* MancalaClient */ = {
 			isa = PBXGroup;
 			children = (
+				ABF873E42565F104001A42D8 /* macala.grpc.swift */,
+				ABF873E32565F103001A42D8 /* macala.pb.swift */,
 				AB7A26A12543CB9500178D80 /* Extensions */,
 				ABD36743254131A500C17530 /* Views */,
 				ABD367402541316B00C17530 /* Controllers */,
@@ -84,7 +109,9 @@
 		AB33F7EA253FD2F0003D3047 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				AB33F7EB253FD33E003D3047 /* ClientManager.swift */,
+				ABF873DD2565E761001A42D8 /* Client.swift */,
+				ABF873DF2565E76D001A42D8 /* Server.swift */,
+				ABF873E12565E776001A42D8 /* CCGameProvider.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -133,6 +160,15 @@
 			path = " CustomCells";
 			sourceTree = "<group>";
 		};
+		D3B2B5F9448CA14024BCAA99 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F3AED62EB5B60601DD9D01C4 /* Pods-MancalaClient.debug.xcconfig */,
+				081DF763591298CF295033C1 /* Pods-MancalaClient.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,9 +176,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB33F7E7253FD214003D3047 /* Build configuration list for PBXNativeTarget "MancalaClient" */;
 			buildPhases = (
+				34EC101A6BA87633D5ED2343 /* [CP] Check Pods Manifest.lock */,
 				AB33F7CF253FD20F003D3047 /* Sources */,
 				AB33F7D0253FD20F003D3047 /* Frameworks */,
 				AB33F7D1253FD20F003D3047 /* Resources */,
+				046B16D87348BD96983D5258 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -198,21 +236,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		046B16D87348BD96983D5258 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MancalaClient/Pods-MancalaClient-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MancalaClient/Pods-MancalaClient-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MancalaClient/Pods-MancalaClient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		34EC101A6BA87633D5ED2343 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MancalaClient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB33F7CF253FD20F003D3047 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABF873E02565E76D001A42D8 /* Server.swift in Sources */,
 				AB7A26A52543CCA400178D80 /* GameViewController.swift in Sources */,
 				AB7A26A02543C9DE00178D80 /* CalaButton.swift in Sources */,
-				AB33F7EC253FD33E003D3047 /* ClientManager.swift in Sources */,
 				AB33F7EF253FD445003D3047 /* Message.swift in Sources */,
 				AB33F7D7253FD20F003D3047 /* AppDelegate.swift in Sources */,
+				ABF873DE2565E761001A42D8 /* Client.swift in Sources */,
 				AB7A269E2543C99F00178D80 /* Cala.swift in Sources */,
 				ABD367482542784200C17530 /* InitialViewController.swift in Sources */,
+				ABF873E52565F104001A42D8 /* macala.pb.swift in Sources */,
 				ABD367422541318900C17530 /* ChatViewController.swift in Sources */,
+				ABF873E22565E776001A42D8 /* CCGameProvider.swift in Sources */,
 				AB7A26A32543CBA300178D80 /* UIView + Extensions.swift in Sources */,
 				ABD36746254131BA00C17530 /* MessageCell.swift in Sources */,
+				ABF873E62565F104001A42D8 /* macala.grpc.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +430,7 @@
 		};
 		AB33F7E8253FD214003D3047 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3AED62EB5B60601DD9D01C4 /* Pods-MancalaClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -364,6 +449,7 @@
 		};
 		AB33F7E9253FD214003D3047 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 081DF763591298CF295033C1 /* Pods-MancalaClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

@@ -1,0 +1,6 @@
+framework module Pods_MancalaClient {
+  umbrella header "Pods-MancalaClient-umbrella.h"
+
+  export *
+  module * { export * }
+}

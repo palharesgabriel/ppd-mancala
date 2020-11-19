@@ -11,6 +11,7 @@ import UIKit
 enum PlayerTurn: String {
     case green = "Verde"
     case orange = "Laranja"
+    case none = "none"
 }
 
 class GameViewController: UIViewController {
@@ -80,10 +81,12 @@ class GameViewController: UIViewController {
         resetGame()
         updateUI(calas)
         createTargets()
-        changeTurn(to: .green)
-        ClientManager.shared.setupNetworkCommunication()
-        ClientManager.shared.joinChat(username: username)
-        ClientManager.shared.delegate = self
+        changeTurn(player: .green)
+        
+        Server.shared.setProviderController(controller: self)
+        
+//        ClientManager.shared.setupNetworkCommunication()
+//        ClientManager.shared.joinChat(username: username)
     }
     
     // MARK: - Selectors
@@ -93,77 +96,92 @@ class GameViewController: UIViewController {
     }
     
     @objc func tapButton0() {
-        ClientManager.shared.move(from: username, in: 0)
+        Client.shared.move(index: 0)
+        moveHandler(with: 0)
         print("Tap Here: 0")
     }
     
     @objc func tapButton1() {
-        ClientManager.shared.move(from: username, in: 1)
+        Client.shared.move(index: 1)
+        moveHandler(with: 1)
         print("Tap Here: 1")
     }
     
     @objc func tapButton2() {
-        ClientManager.shared.move(from: username, in: 2)
+        Client.shared.move(index: 2)
+        moveHandler(with: 2)
         print("Tap Here: 2")
     }
     
     @objc func tapButton3() {
-        ClientManager.shared.move(from: username, in: 3)
+        Client.shared.move(index: 3)
+        moveHandler(with: 3)
         print("Tap Here: 3")
     }
     
     @objc func tapButton4() {
-        ClientManager.shared.move(from: username, in: 4)
+        Client.shared.move(index: 4)
+        moveHandler(with: 4)
         print("Tap Here: 4")
     }
     
     @objc func tapButton5() {
-        ClientManager.shared.move(from: username, in: 5)
+        Client.shared.move(index: 5)
+        moveHandler(with: 5)
         print("Tap Here: 5")
     }
     
     @objc func tapButton6() {
-        ClientManager.shared.move(from: username, in: 6)
+        Client.shared.move(index: 6)
+        moveHandler(with: 6)
         print("Tap Here: 6")
     }
     
     @objc func tapButton7() {
-        ClientManager.shared.move(from: username, in: 7)
+        Client.shared.move(index: 7)
+        moveHandler(with: 7)
         print("Tap Here: 7")
     }
     
     @objc func tapButton8() {
-        ClientManager.shared.move(from: username, in: 8)
+        Client.shared.move(index: 8)
+        moveHandler(with: 8)
         print("Tap Here: 8")
     }
     
     @objc func tapButton9() {
-        ClientManager.shared.move(from: username, in: 9)
+        Client.shared.move(index: 9)
+        moveHandler(with: 9)
         print("Tap Here: 9")
     }
     
     @objc func tapButton10() {
-        ClientManager.shared.move(from: username, in: 10)
+        Client.shared.move(index: 10)
+        moveHandler(with: 10)
         print("Tap Here: 10")
     }
     
     @objc func tapButton11() {
-        ClientManager.shared.move(from: username, in: 11)
+        Client.shared.move(index: 11)
+        moveHandler(with: 11)
         print("Tap Here: 11")
     }
     
     @objc func tapButton12() {
-        ClientManager.shared.move(from: username, in: 12)
+        Client.shared.move(index: 12)
+        moveHandler(with: 12)
         print("Tap Here: 12")
     }
     
     @objc func tapButton13() {
-        ClientManager.shared.move(from: username, in: 13)
+        Client.shared.move(index: 13)
+        moveHandler(with: 13)
         print("Tap Here: 13")
     }
     
     @objc func tapGiveUp() {
-        ClientManager.shared.giveUp(player: self.playerTurn)
+        Client.shared.surrender(player: self.playerTurn)
+        giveUpHandler(with: playerTurn.rawValue)
     }
     
     // MARK: - Helpers
@@ -242,16 +260,21 @@ class GameViewController: UIViewController {
     
     func updateUI(_ calas: [Int]) {
         for i in 0...13 {
-            buttons[i].setTitle(String(calas[i]), for: .normal)
+            DispatchQueue.main.async {
+                self.buttons[i].setTitle(String(calas[i]), for: .normal)
+            }
         }
-        
     }
     
     func block(player: PlayerTurn) {
         if player == playerTurn {
-            viewShiftControl.isHidden = false
+            DispatchQueue.main.async {
+                self.viewShiftControl.isHidden = false
+            }
         } else {
-            viewShiftControl.isHidden = true
+            DispatchQueue.main.async {
+                self.viewShiftControl.isHidden = true
+            }
         }
     }
     
@@ -317,7 +340,8 @@ class GameViewController: UIViewController {
         if !shouldPlayAgain(finalPosition) {
             playerTurn = playerTurn == .green ? .orange : .green
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                ClientManager.shared.changeTurn(toPlayer: self.playerTurn)
+                Client.shared.changeTurn(player: self.playerTurn)
+                self.changeTurn(player: self.playerTurn)
             }
         }
     }
@@ -331,15 +355,19 @@ class GameViewController: UIViewController {
         return false
     }
     
-    func changeTurn(to player: PlayerTurn) {
+    func changeTurn(player: PlayerTurn) {
         if player == .green {
             playerTurn = .green
-            label.text = "Turno do \(PlayerTurn.green.rawValue)"
-            block(player: .orange)
+            DispatchQueue.main.async {
+                self.label.text = "Turno: \(PlayerTurn.green.rawValue)"
+                self.block(player: .orange)
+            }
         } else {
             playerTurn = .orange
-            label.text = "Turno do \(PlayerTurn.orange.rawValue)"
-            block(player: .green)
+            DispatchQueue.main.async {
+                self.label.text = "Turno: \(PlayerTurn.orange.rawValue)"
+                self.block(player: .green)
+            }
         }
     }
 
@@ -440,67 +468,69 @@ class GameViewController: UIViewController {
         ])
     }
     
-    private func messageHandler(with message: Message) {
+    func messageHandler(with message: Message) {
         chatController.insertNewMessageCell(message)
     }
     
-    private func moveHandler(with message: Message) {
-        print(message)
-        print(Int(message.message) ?? "VEIO NULO ESSA BOSTA")
-        guard let position = Int(message.message) else { return }
+    func moveHandler(with position: Int) {
         play(position: position)
         updateUI(calas)
-        print("JOGADA REALIZADA: \(message)")
+        print("JOGADA REALIZADA: \(position)")
     }
     
-    private func turnHandler(with message: Message) {
-        if message.message == "Verde" {
-            changeTurn(to: .green)
-        } else {
-            changeTurn(to: .orange)
+    func quitHandler() {
+        DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
+            self.alert.dismiss(animated: true, completion: nil)
         }
+        
     }
     
-    private func quitHandler() {
-        self.navigationController?.popToRootViewController(animated: true)
-        alert.dismiss(animated: true, completion: nil)
-    }
-    
-    private func restartHandler() {
+    func restartHandler() {
         resetGame()
-        updateUI(calas)
-        alert.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.updateUI(self.calas)
+            self.alert.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
-    private func giveUpHandler(with message: Message) {
-        if message.message == "Verde" {
-            alert = showAlert(title: "Verde desistiu", message: "O Laranja venceu!", type: .endGame)
-        } else if message.message == "Laranja" {
-            alert = showAlert(title: "Laranja desistiu", message: "O Verde venceu!", type: .endGame)
+    func giveUpHandler(with player: String) {
+        if player == "Verde" {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Verde desistiu", message: "O Laranja venceu!", type: .endGame)
+            }
+        } else if player == "Laranja" {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Laranja desistiu", message: "O Verde venceu!", type: .endGame)
+            }
+            
         }
-        resetGame()
-        self.updateUI(self.calas)
     }
     
-}
-
-extension GameViewController: ClientManagerDelegate {
-    func didReceive(message: Message) {
-        switch message.type {
-        case "JOIN", "MSG":
-            messageHandler(with: message)
-        case "MOVE":
-            moveHandler(with: message)
-        case "TURN":
-            turnHandler(with: message)
-        case "QUITCLIENT":
-            quitHandler()
-        case "RESTART":
-            restartHandler()
-        case "GVUP":
-            giveUpHandler(with: message)
-        default:
-            print("Error")
+    func showAlert(title: String, message: String, type: AlertType) -> UIAlertController {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            switch type {
+            case .endGame:
+                let playAgainAction = UIAlertAction(title: "Jogar Novamente", style: .default, handler: { _ in
+                    Client.shared.restart()
+                    self.restartHandler()
+                })
+                let quitAction = UIAlertAction(title: "Sair", style: .destructive, handler: { _ in
+                    Client.shared.quit()
+                    self.quitHandler()
+                })
+                
+                alert.addAction(playAgainAction)
+                alert.addAction(quitAction)
+            case .invalidMove:
+                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                
+                alert.addAction(action)
+            }
+            
+            present(alert, animated: true, completion: nil)
+            return alert
         }
-    }
+    
 }

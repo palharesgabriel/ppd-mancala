@@ -48,7 +48,7 @@ class ChatViewController: UIViewController {
     }()
     
     override func viewWillDisappear(_ animated: Bool) {
-        ClientManager.shared.stopConnection()
+//        ClientManager.shared.stopConnection()
     }
     
     override func viewDidLoad() {
@@ -60,20 +60,23 @@ class ChatViewController: UIViewController {
     }
     
     @objc func sendMessageDidTapped() {
-        let data = "MSG:\(username);\(chatInput.text ?? "")".data(using: .utf8)
-        ClientManager.shared.send(data: data!)
+       let message = Message(type: "MSG", message: chatInput.text ?? "", username: username)
+        insertNewMessageCell(message)
+        Client.shared.send(message: message)
         chatInput.text = ""
     }
     
     func insertNewMessageCell(_ message: Message) {
         messages.append(message)
         let indexPath = IndexPath(row: messages.count - 1, section: 0)
-        chatTableView.beginUpdates()
-        chatTableView.insertRows(at: [indexPath], with: .bottom)
-        chatTableView.endUpdates()
-        chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        DispatchQueue.main.async { [self] in
+            self.chatTableView.beginUpdates()
+            self.chatTableView.insertRows(at: [indexPath], with: .bottom)
+            self.chatTableView.endUpdates()
+            self.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            self.chatTableView.reloadData()
+        }
     }
-    
     private func setupNavigationController() {
         navigationController?.navigationBar.barStyle = UIBarStyle.black
         navigationController?.navigationBar.barTintColor = .darkGray
